@@ -21,7 +21,7 @@ https://join.slack.com/t/griffin-courses/shared_invite/zt-cw6fonr5-_CTN1kbgP3UaL
 
 ## Office Hours
 
-<a href="https://images2.imgbox.com/fe/95/NM7MD8WY_o.png" target="_blank"><img src="https://images2.imgbox.com/fe/95/NM7MD8WY_o.png" alt="image host" width="450"/></a>
+<a href="https://images2.imgbox.com/57/5e/XYB1SPWC_o.png" target="_blank"><img src="https://images2.imgbox.com/57/5e/XYB1SPWC_o.png" alt="image host" width="150"/></a>
 
 ### Resources
 
