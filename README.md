@@ -1,15 +1,17 @@
 # 5243-Algorithms
 
-https://join.slack.com/t/griffin-courses/shared_invite/zt-cw6fonr5-_CTN1kbgP3UaL9kRAzUICw
+|                                                                         |     |                                                                         |
+| ----------------------------------------------------------------------- | --- | ----------------------------------------------------------------------- |
+| <img src="https://images2.imgbox.com/cf/72/1rVot2oi_o.png" width="200"> |     | <img src="https://images2.imgbox.com/46/07/hq4ABrFS_o.png" width="200"> |
 
 ### Roster
 
 ### General Course Info
 
-- **Section 201:**
-  - **Days:** TR
-  - **Time:** 1230 - 1350
-  - **Location:** Dillard 342
+- **Section 270:**
+- **Days:** TR
+- **Time:** 1230 - 1350
+- **Location:** Dillard 342
 - [**Semester:**](https://msutexas.edu/registrar/calendars.php) Tuesday January 21<sup>st</sup> - Friday May 9<sup>th</sup>
 - [**Holidays:**](https://msutexas.edu/registrar/calendars.php)
   - **Spring Break** Mon Mar 10<sup>th</sup> - Fri Mar 14<sup>th</sup>
@@ -17,11 +19,11 @@ https://join.slack.com/t/griffin-courses/shared_invite/zt-cw6fonr5-_CTN1kbgP3UaL
 - [**Last Day for “W”:**](https://msutexas.edu/registrar/calendars.php) Wed Apr 30<sup>th</sup>
 - [**Last Day of Class:**](https://msutexas.edu/registrar/calendars.php) Fri May 9<sup>th</sup>
 - [**Final Exam:**](https://msutexas.edu/registrar/schedule/finalexamschedule.php)
-  - Thu May 15<sup>th</sup> from 10:30 a.m. - 12:30 p.m.
+  - Tue May 13<sup>th</sup> from 3:30 p.m. - 5:30 p.m.
 
 ## Office Hours
 
-<a href="https://images2.imgbox.com/57/5e/XYB1SPWC_o.png" target="_blank"><img src="https://images2.imgbox.com/57/5e/XYB1SPWC_o.png" alt="image host" width="150"/></a>
+<a href="https://images2.imgbox.com/6e/30/FSEnPfv3_o.png" target="_blank"><img src="https://images2.imgbox.com/6e/30/FSEnPfv3_o.png" alt="image host" width="200"/></a>
 
 ### Resources
 
@@ -118,58 +120,27 @@ So ultimately based on class input and questions that come up in discussion, I m
 - http://opendatastructures.org/ods-cpp/
 - https://github.com/ippeb/ACM-ICPC
 
+## Calendar
+
+- Weekly Quizzes or Homeworks
+- Exam 1 - Feb 13<sup>th</sup>
+- Exam 2 - Mar 20<sup>th</sup>
+- Exam 3 - Apr 17<sup>th</sup>
+
 ## Grading
 
-Grading within the recent past has become a fluid / difficult endeavor. Projects (programs) do not have the same integrity that they once did in assessing a students knowledge. Exams, like always, evaluate a students ability to memorize, cram information, or cheat I dare say, all without really understanding the topics. **_So I will be going for a more hands on approach by using oral examinations in conjunction with code reviews._** This means I will sit down with everyone at least once, on a project of my choosing to discuss with them the code they submitted for grading. This way, whether its a group project or individual project, I can assess a general understanding from each student for that project. I wish I had time to do this for every assignment, but it wouldn't be feasible from a time approach.
+| Categories                        | Weight |     | Letter Grade | Grade Range |
+| :-------------------------------- | :----: | :-: | :----------: | :---------- |
+| Exams (3)<sup>**1**</sup>         | ⇦ 40%  |     |     A ⇨      | 90-100      |
+| Miscellaneous (3)<sup>**2**</sup> | ⇦ 25%  |     |     B ⇨      | 80-89       |
+| Final<sup>**3**</sup>             | ⇦ 20%  |     |     C ⇨      | 70-79       |
+| Github Portfolio                  | ⇦ 10%  |     |     D ⇨      | 60-69       |
+| Participation<sup>**4**</sup>     |  ⇦ 5%  |     |     F ⇨      | below 60    |
 
-The grade scale below is not complete, but will change as our class moves forward. I will use a democratic approach to determining a final grading scale ensuring the majority of the class agrees with the weights for each category. I will reserve the right to veto ridiculous organized labor's ideas (aka class getting together and all agreeing on something ridiculous), but will in good faith try to listen to the class within reason.
-
-| Categories    | Portion of Course | ::: | Letter Grade | Grade Range |
-| :------------ | :---------------: | --- | :----------: | :---------: |
-| Exams         |        TBD        | ::: |      A       |   90-100    |
-| Project(s)    |        TBD        | ::: |      B       |    80-89    |
-| Final         |        TBD        | ::: |      C       |    70-79    |
-| Github        |        TBD        | ::: |      D       |    60-69    |
-| Participation |        TBD        | ::: |      F       |  below 60   |
-| Presentation  |        TBD        | ::: |              |             |
-| Code Review   |        TBD        | ::: |              |             |
-
-- **Exams**:
-  - Not sure if I want this to be a pure projects based course, or supplement projects with exams. This will depend on class participation and my opinion on how the class as a whole is absorbing the information.
-- **Projects**:
-  - These are programming assignments. I do not put a lot of weight into projects (programs) as of late. Starting with Google, then onto Stack Overflow, and now with Chat GPT it's very hard to determine ones individual work. So I will be assessing your work with a different set of metrics (Aka Presentations, and Code Reviews).
-- **Final**:
-  - TBD. Not sure how I want to approach this yet.
-- **Github**:
-  - This is a portfolio of your work. It somewhat defines you as a computer scientist. An ugly portfolio will not generate interest in you by companies looking to hire. A good well organized portfolio with strong and detailed explanations of projects will help you get noticed. Oh, and get you a good grade for this component.
-- **Participation**:
-
-  - What is participation? I know many individuals in class may be shy, especially given the personality type that dominates our major (including me when I was your age). So how can you `participate`?
-    1. The best way to participate is simply to provide comments and or questions during class. But as stated above, I know not everyone is comfortable doing this.
-    2. So, you can post a question pertaining to the previous class or an upcoming class on Slack. This can be done via DM to me, or on our course channel. **Questions drive my lecture, so they are always welcome**.
-    3. Try and include yourself in conversations that start up on our Slack channel. If you can answer someones question, or help clarify a requirement, please do so. This also gives me the opportunity to jump in and fix something that may be ambiguous or confusing in my assignment.
-    4. Provide links of cool tutorials, libraries, or assets to the class. Again, if you're unsure, DM me, and I will help filter. But I will also give you credit for cool finds.
-    5. Ask questions about my project descriptions on our course channel or in a DM. These questions are extremely helpful! Every semester I pretty much create new projects, and this leads to ambiguities or unattainable goals (rarely). Simply asking me to clarify something on a study guide or project description that you find confusing helps me tremendously. Again, DM me directly, or post on course channel.
-  - Any communication I receive from ya'll in a DM will be redirected by me to the course channel. I will leave your name out of my comment if explicitly asked, but good questions deserve credit, so I usually give credit where it is due. I will **never** out someone or try and embarrass someone based on private conversations between myself and that person. Unless you get embarrassed by praise and accolades, since that's the only way I mention a name in the public channel based on a private conversation (DM).
-
-- **Presentation(s)**:
-  - Presentations may be individual or with a group (instructor preference).
-  - The presentation should show and discuss a specified project. Your discussion will include:
-    - The positives, and negatives of your project.
-      - Positives may include something cool, above and beyond the requirements, or something you discovered that was rememberable.
-      - Negatives may include the troubles getting particular requirements to work or particular components you had trouble getting to work. Basically, the portions of the project you had the worst time with.
-    - Always ask yourself about code efficiency. Did it come into play? Did you think about it at any point in fulfilling a specific requirement? Was efficiency not an issue at all?
-    - What was the funnest part of the project?
-    - What was the most difficult part of the project?
-  - Showing code specific portions of your code for the above items is a good way to help you walk your viewers through each of the points mentioned above.
-  -
-- **Code Review**:
-  - As mentioned above:
-  - I will choose a random project and have individuals describe in detail chunks of code chosen by me.
-  - This may be in front of class, or simply with only me.
-  - My goal is to find out what you actually know about your project code.
-
----
+- **Note 1** - Missed exams cannot be made up. I have other ways of adjusting the grading scale if an exam is missed.
+- **Note 2** - Miscelaneous includes: Programs, Quizzes, Assignments, ... you get it.
+- **Note 3** - The final exam cannot be taken early. Dire circumstances should be brought to the dean of students.
+- **Note 4** - Participation is determined by attendance, responding to slack messages, asking questions, and basically being a positive influence on the class.
 
 ## Teaching Philosophy
 
@@ -202,7 +173,9 @@ Lastly, this isn't totally about your own success, but it helps me succeed. Aski
 
 ### Presentations
 
-- Presentations are a major component of your course work. The ability to discuss complex topics in front a group of your peers is an important skill to have.
+(Not all of my courses will have presentations, but when possible I will try and encorporate presentations into the currculum.)
+
+- Presentations are a major component of your course work at MSU. The ability to discuss complex topics in front a group of your peers is an important skill to have.
 - Depending on the course, and the size of the class, you may have many presentations, or just one presentation.
 - The quality of a presentations that accompanies a programming project is highly coupled with the quality of your project. A poor project makes it hard to give a proper presentation on a project in which you did not complete.
 - On the other hand, an excellent project doesn't ensure a great presentation either.
@@ -226,21 +199,27 @@ Some of these points are duplicated in other places in this document. It's ok.
 - All students need a [Github](http://github.com) account
 - All programs need to be turned in and running to pass the course
 - General Assignment Rules:
-- Due dates and times are as listed on assignment and can change with prior notice to class, and always in your favor (aka more time).
-- Formatting of programs is important, and will be graded accordingly.
-- You name is required on ALL documents uploaded or turned in. A handwritten name is not acceptable.
-- For any assignment, you will create a folder and include all documents created by you within this folder for submission. This includes programs, input / output files, readme's, documentation, etc. This folder will subsequently be uploaded to Github in the repo you created for the course.
+  - Due dates and times are as listed on assignment and can change with prior notice to class, and always in your favor (aka more time).
+  - Formatting of programs is important, and will be graded accordingly.
+  - Your name is required on ALL documents uploaded or turned in. A handwritten name is not acceptable unless done in class.
+  - For any assignment, you will create a folder and include all documents created by you within this folder for submission. This includes programs, input / output files, readme's, documentation, etc. This folder will subsequently be uploaded to Github in the repo you created for the course.
 - Attending class is one of the primary keys to doing well in this class. Students may be dropped for excessive absences. There is no distinction made between excused and unexcused.
 - Make-up exams are not given. If I see fit, then I will replace a missed exam with your final exam test grade (but this is optional to instructor based on circumstances, attendance, participation, etc.).
 - Late work will be accepted on a case by case basis. Late penalty is 15 points (out of 100) for initial lateness and 1 half a letter grade (5 points) for every class period until the total reduced is 50 (half credit). Extremely late work is totally at the instructors discretion on whether it will be accepted or not.
 - Programs containing syntax errors are unacceptable and will be returned without grading (your programs must work).
 - Periodically homework assignments will be taken up and graded. It is the student's responsibility to keep up with assignments and to ask questions over the assigned work, even if absent. All homework assignments are due at the specified time that may or may not be in conjunction with a class day. All assignments / homeworks will be uploaded via Github.
 
+## LLM (Large Language Models)
+
+**Caution Regarding the Use of Large Language Models (LLMs aka Chat Gpt and the like)**
+
+While Large Language Models (LLMs) like ChatGPT can be valuable tools for obtaining information and assistance, it is essential to use them responsibly. Relying heavily on LLMs for completing assignments or understanding course material may impede your own learning and critical thinking development. This course encourages active engagement with the content, independent problem-solving, and collaboration with peers and instructors. Please use LLMs as supplementary resources rather than substitutes for your own study and effort to ensure a meaningful and effective educational experience.
+
 ## Official Course and Department Policies
 
 ### Attendance Policy
 
-I don't have an attendance policy. However, I do track students attendance and will submit a drop request to the dean of students for students that have excessive absences. I won't define "excessive" but will give you a warning before I submit the actual drop request. To alleviate issues, simply communicate with me about any issues or problems you are having with getting to class, and I will help in any way that I can.
+Although student attendance is not calculated into the grade, attendance will be taken each day to track students. If a student is absent more than 2 classes without an excuse and is not performing well in class, a report can be submitted to the Dean of Students and the student may be dropped from the class. Classes will not be streamed for absent students, whether it is excused or not.
 
 ### Behavior in the classroom
 
@@ -254,9 +233,9 @@ Students are to assist in maintaining a classroom environment that is conducive 
 
 ### Late Work
 
-Late programs / homeworks will be accepted with an initial **15 point** reduction and then a **5 point **deduction class day. **_No late programs for last programming assignment._**
+Late programs will be accepted with an initial **15 point** reduction and then a **5 point **deduction class day. **_No late programs for last programming assignment. No late homework will be allowed in the Connect System._**
 
-**Computer Requirements:** Taking this class requires you to have access to a computer (with Internet access) to access online course material. **_Personal computer technical difficulties will not be considered a reason for extra time to submit assignments, tests, or online discussion postings._** Computers are available on campus in various areas of the buildings, as well as the in the library. Contact your instructor immediately upon having computer trouble. If you have technical difficulties in the course, there is also a student helpdesk available to you. The university cannot work directly on student computers due to both liability and resource limitations, however they are able to help you get connected to our online services. For help, log into **[`D2L`](https://d2l.msutexas.edu/)**
+**Computer Requirements:** Taking this class requires you to have access to a computer (with Internet access) to access online course material. **_Personal computer technical difficulties will not be considered a reason for extra time to submit assignments, tests, or online discussion postings._** Computers are available on campus in various areas of the buildings, as well as the in the library. Contact your instructor immediately upon having computer trouble. If you have technical difficulties in the course, there is also a student helpdesk available to you. The university cannot work directly on student computers due to both liability and resource limitations, however they are able to help you get connected to our online services. For help, log into[` `\*\*D2L.](https://d2l.msutexas.edu/)\*\*
 
 ### Policy on Testing Process
 
@@ -299,7 +278,7 @@ Any student who, because of a disability, may require special arrangements in or
 
 ### Policy on Concealed Handguns on Campus
 
-Senate Bill 11 passed by the 84th Texas Legislature allows licensed handgun holders to carry _concealed_ handguns on campus, effective August 1, 2016. Please note, open carry of handguns, whether licensed or not, and the carrying of all other firearms, whether open or concealed, are prohibited on campus. Areas excluded from concealed carry are appropriately marked, in accordance with state law. For more information regarding campus carry, please refer to the University’s webpage at[ MSU Campus Carry Policy ](https://msutexas.edu/campus-carry/rules-policies)*https://msutexas.edu/campus-carry/rules-policies### *. If you have questions or concerns, please contact MSU Chief of Police Steven Callarman at[ Steven.callarman@msutexas.edu.](mailto:steven.callarman@msutexas.edu)
+Senate Bill 11 passed by the 84th Texas Legislature allows licensed handgun holders to carry _concealed_ handguns on campus, effective August 1, 2016. Please note, open carry of handguns, whether licensed or not, and the carrying of all other firearms, whether open or concealed, are prohibited on campus. Areas excluded from concealed carry are appropriately marked, in accordance with state law. For more information regarding campus carry, please refer to the University’s webpage at[ MSU Campus Carry Policy ](https://msutexas.edu/campus-carry/rules-policies)*https://msutexas.edu/campus-carry/rules-policies*. If you have questions or concerns, please contact MSU Chief of Police Steven Callarman at[ Steven.callarman@msutexas.edu.](mailto:steven.callarman@msutexas.edu)
 
 ### Midterm Progress Report
 
