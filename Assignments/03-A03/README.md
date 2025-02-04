@@ -29,6 +29,8 @@ Specifically, you will implement a **delete** method for the BST. You may refer 
 ## **Assignment Requirements**
 
 1. **Ensure that your delete method correctly handles all deletion cases.**
+   - I added a `graphviz` static class to allow you to print your BST out.
+   - Use the output images to show all cases work.
 2. **Test your delete function thoroughly** with various BST structures.
 3. **Write a short explanation (minimum 200 words)** covering:
    - The cases you handled for deletion.

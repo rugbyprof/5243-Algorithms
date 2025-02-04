@@ -2,7 +2,7 @@
 
 ## **Objective**
 
-The goal of this assignment is to replicate and validate the findings from the paper _"An Empirical Study of Insertion and Deletion in Binary Search Trees"_ by Jeffrey L. Eppinger. Specifically, students will implement the described experimental setup and analyze whether the results hold under modern computational conditions.
+The goal of this assignment is to replicate and validate the findings from the paper [_"An Empirical Study of Insertion and Deletion in Binary Search Trees"_](./study_insert_delete.pdf) by Jeffrey L. Eppinger. Specifically, students will implement the described experimental setup and analyze whether the results hold under modern computational conditions.
 
 ## **Background**
 
