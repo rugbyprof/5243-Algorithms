@@ -152,9 +152,6 @@ int main() {
         arr.push_back(r);
     }
 
-    tree.print();
-    tree.saveDotFile("bst_snapshot.dot");
-
     Bst tree2;
     tree2.insert(10);
     tree2.insert(5);
@@ -162,5 +159,7 @@ int main() {
     tree2.insert(2);
     tree2.insert(7);
     tree2.insert(20);
+    tree2.print();
+    tree2.saveDotFile("bst_snapshot.dot");
     cout << "Internal Path Length: " << tree2.ipl() << endl;
 }
