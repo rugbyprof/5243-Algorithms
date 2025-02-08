@@ -30,23 +30,25 @@ where:
 **Example BST:**
 
 ```txt
-        5
-       / \
-      3   8
-     / \   \
-    1   4   9
+         15
+       /   \
+      10    20
+     /  \     \
+    8    12    25
+   / \   / \   / \
+  3   9 11 14 22 27
 ```
 
 #### Step 1: Identify Internal Nodes and Their Depths
 
 | Node |  Depth   |
 | :--: | :------: |
-|  5   | (root) 0 |
-|  3   |    1     |
-|  8   |    1     |
-|  1   |    2     |
-|  4   |    2     |
-|  9   |    2     |
+|  15  | (root) 0 |
+|  10  |    1     |
+|  20  |    1     |
+|  8   |    2     |
+|  12  |    2     |
+|  25  |    2     |
 
 #### Step 2: Sum the Depths
 
