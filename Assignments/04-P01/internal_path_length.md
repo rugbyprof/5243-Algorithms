@@ -9,7 +9,7 @@ In a **Binary Search Tree (BST)**, the **Internal Path Length (IPL)** is the sum
 Given a BST with internal nodes **_\( v \)_**, the **IPL** is calculated as:
 
 $$
-I(T) = \sum\_{v \in \text{internal nodes}}_ \text{depth}(v)
+I(T) = \sum\_{v \in \text{internal nodes}}_{\text{depth}(v)}
 $$
 
 where:
