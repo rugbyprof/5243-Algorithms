@@ -19,11 +19,44 @@ where:
 
 ---
 
+### Steps to Compute IPL
+
+1. Traverse the BST using preorder traversal (or any traversal method that visits all internal nodes).
+2. Calculate the depth of each internal node.
+3. Sum up all the depths.
+
+#### Example Calculation
+
+**Example BST:**
+
+```txt
+        5
+       / \
+      3   8
+     / \   \
+    1   4   9
+```
+
+#### Step 1: Identify Internal Nodes and Their Depths
+
+| Node |  Depth   |
+| :--: | :------: |
+|  5   | (root) 0 |
+|  3   |    1     |
+|  8   |    1     |
+|  1   |    2     |
+|  4   |    2     |
+|  9   |    2     |
+
+#### Step 2: Sum the Depths
+
+**_IPL = 0 + 1 + 1 + 2 + 2 + 2 = 8_**
+
 ## **Why IPL Varies Across BSTs with the Same Number of Nodes**
 
 ### **Balanced BST (Low IPL)**
 
-Consider a balanced BST:
+**Consider a balanced BST:**
 
 ```
         4
@@ -39,9 +72,9 @@ Consider a balanced BST:
 
 ### **Skewed BST (High IPL)**
 
-Now, consider a right-skewed BST:
+**Now, consider a right-skewed BST:**
 
-```
+```txt
     1
      \
       2
