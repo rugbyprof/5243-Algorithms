@@ -1,6 +1,6 @@
 ## Test 1 - Various Topics
 
-#### Due: 02-12-2025 (Wed @ 2:00)
+#### Due: 02-13-2025 (Thu @ 3:30)
 
 ### Topics
 
