@@ -144,6 +144,10 @@ _(Leaves you ~11 min for hook, theory slides, comparisons, apps, and Q&A.)_
 
 Now you have a concrete, minute‑by‑minute drawing plan that will keep the class’s eyes glued to the board while you “pull coins from your pocket” and bring a skip list to life. Have fun!
 
+---
+
+Below here adds to your presentation time, but if you need clarification of some points, its good to get that information and place it in your readme!
+
 # Asked chat GPT to expand on Geometric Series
 
 ```yaml
@@ -159,15 +163,11 @@ format: markdown
 
 A **geometric series** adds terms that each get multiplied by a constant ratio *r* compared to the previous term:
 
-$
-S = a + ar + ar^{2} + ar^{3} + \dots
-$
+$S = a + ar + ar^{2} + ar^{3} + \dots$
 
-If \(|r| < 1\), the infinite sum converges:
+If $\(|r| < 1\)$, the infinite sum converges:
 
-$
-\sum\_{k=0}^{\infty} ar^{k} \;=\; \frac{a}{1 - r}.
-$
+$\sum\_{k=0}^{\infty} ar^{k} \;=\; \frac{a}{1 - r}.$
 
 ---
 
@@ -185,9 +185,7 @@ For every new element we flip a coin until we get tails:
 
 The probability that a node reaches **at least** level *k* is:
 
-$
-\Pr(\text{level}\ge k) \;=\; (1/2)^{k},
-$
+$\Pr(\text{level}\ge k) \;=\; (1/2)^{k},$
 
 because we must get _k_ heads in a row.
 
@@ -198,33 +196,23 @@ because we must get _k_ heads in a row.
 Assume we’ve inserted **n = 16** keys.  
 Expected nodes in level 0:
 
-$
-E_0 = n = 16
-$
+$E_0 = n = 16$
 
 Expected nodes in level 1:
 
-$
-E_1 = n \cdot (1/2) = 8
-$
+$E_1 = n \cdot (1/2) = 8$
 
 Level 2:
 
-$
-E_2 = n \cdot (1/2)^2 = 4
-$
+$E_2 = n \cdot (1/2)^2 = 4$
 
 …and so on. In general
 
-$
-E_k = n\,(1/2)^k
-$
+$E_k = n\,(1/2)^k$
 
 Those expectations form the geometric series
 
-$
-16 + 8 + 4 + 2 + 1 + \dots \;=\; 32 \;=\; n\left(\frac{1}{1 - 1/2}\right)
-$
+$16 + 8 + 4 + 2 + 1 + \dots \;=\; 32 \;=\; n\left(\frac{1}{1 - 1/2}\right)$
 
 so **total forward‑pointer slots ≈ 2 n**. That’s why skip lists need only _Θ(n)_ space even though some nodes build tall “towers”.
 
@@ -233,16 +221,12 @@ so **total forward‑pointer slots ≈ 2 n**. That’s why skip lists need onl
 ## 4 ️⃣ Search height and geometric tail
 
 The tallest tower height **hₘₐₓ** behaves like  
-$
-h*{\text{max}} \approx \log*{1/p} n=\log\_{2} n
-$  
+$h*{\text{max}} \approx \log*{1/p} n=\log\_{2} n$  
 because the chance that **any** of the *n* elements rises above level *k* is:
 
-$
-n \cdot (1/2)^{k+1}.
-$
+$n \cdot (1/2)^{k+1}.$
 
-Setting that probability ≈ 1 gives \(k ≈ \log\_{2} n\).  
+Setting that probability ≈ 1 gives $\(k ≈ \log\_{2} n\)$.  
 Thus the **expected search path** length is _O(log n)_—again thanks to the geometric decay of tall nodes.
 
 ---
@@ -270,13 +254,13 @@ So every time you cite “skip lists are \(O(\log n)\) and \(2n\) pointers,” y
 
 ## Why the value of _p_ matters
 
-| Property                    | Formula (≈)                     | With **p = 1/2**                  | With **p = 1/4**                                    | Intuition                                         |
-| --------------------------- | ------------------------------- | --------------------------------- | --------------------------------------------------- | ------------------------------------------------- |
-| Expected nodes at level *k* | \(n\,p^{\,k}\)                  | halves each level ( n, ½n, ¼n, …) | quarters each level ( n, ¼n, ¹⁄₁₆n, …)              | Lower _p_ thins out the upper lanes faster.       |
-| Expected tallest height     | \(\log\_{1/p} n\)               | \(\log\_{2} n\)                   | \(\log*{4} n = \tfrac12\log*{2} n\)                 | Smaller _p_ ⇒ fewer levels.                       |
-| Pointer overhead            | \(\dfrac{n}{1-p}\)              | \(\approx 2n\)                    | \(\approx 1.33n\)                                   | Fewer promotions ⇒ less space.                    |
-| Expected search cost        | \(\tfrac{1}{p}\,\log\_{1/p} n\) | \(\approx 2\log\_{2} n\)          | \(\approx 4\cdot \tfrac12\log*{2} n = 2\log*{2} n\) | Constant‑factor trade‑off tends to equalise.      |
-| Cache friendliness          | —                               | More pointers, more levels        | Fewer pointers, shallower                           | Depends on hardware; lower *p* can be friendlier. |
+| Property                    | Formula (≈)                       | With **p = 1/2**                  | With **p = 1/4**                                      | Intuition                                         |
+| --------------------------- | --------------------------------- | --------------------------------- | ----------------------------------------------------- | ------------------------------------------------- |
+| Expected nodes at level *k* | $\(n\,p^{\,k}\)$                  | halves each level ( n, ½n, ¼n, …) | quarters each level ( n, ¼n, ¹⁄₁₆n, …)                | Lower _p_ thins out the upper lanes faster.       |
+| Expected tallest height     | $\(\log\_{1/p} n\)$               | $\(\log\_{2} n\)$                 | $\(\log*{4} n = \tfrac12\log*{2} n\)$                 | Smaller _p_ ⇒ fewer levels.                       |
+| Pointer overhead            | $\(\dfrac{n}{1-p}\)$              | $\(\approx 2n\)$                  | $\(\approx 1.33n\)$                                   | Fewer promotions ⇒ less space.                    |
+| Expected search cost        | $\(\tfrac{1}{p}\,\log\_{1/p} n\)$ | $\(\approx 2\log\_{2} n\)$        | $\(\approx 4\cdot \tfrac12\log*{2} n = 2\log*{2} n\)$ | Constant‑factor trade‑off tends to equalise.      |
+| Cache friendliness          | —                                 | More pointers, more levels        | Fewer pointers, shallower                             | Depends on hardware; lower *p* can be friendlier. |
 
 ### Reading that table
 
@@ -286,11 +270,11 @@ So every time you cite “skip lists are \(O(\log n)\) and \(2n\) pointers,” y
 
 - **Space**:  
   Pointer count is the geometric series  
-  \(n + np + np^2 + \dots = \dfrac{n}{1-p}\).  
+  $\(n + np + np^2 + \dots = \dfrac{n}{1-p}\)$.  
   With _p = 1/2_ you store ≈ 2 n pointers; with _p = 1/4_ only ≈ 1.33 n.
 
 - **Search time**:  
-  Fewer levels means fewer downward moves **but** each top‑level hop spans \(1/p\) times more nodes on average, so the constants roughly cancel.  
+  Fewer levels means fewer downward moves **but** each top‑level hop spans $\(1/p\)$ times more nodes on average, so the constants roughly cancel.  
   In practice the difference is small; implementers pick _p_ for space‑vs‑simplicity.
 
 ---
