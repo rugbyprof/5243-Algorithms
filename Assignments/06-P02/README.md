@@ -1,4 +1,4 @@
-## Presentation - 20-30 Minutes of Free Format Awesomness
+## Presentation - 10-15 Minutes of Free Format Awesomness
 
 #### Due: TBD
 
