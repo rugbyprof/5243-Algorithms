@@ -1,6 +1,6 @@
 ## Assignment 1 - Code Repository
 
-#### Due: 01-26-2025 (Sunday by 11:55)
+#### Due: 01-22-2026 (Thursday by Classtime)
 
 This assignment describes setting up a Github repository, the place in which all of your assignments will be turned in.
 
@@ -43,7 +43,6 @@ I use Github as a home-base for all assignments, lectures, and resources. It's b
 #### Create a Github account.
 
 - You shouldn't need this tutorial, but just in case:
-
   - https://www.wikihow.com/Create-an-Account-on-Github
 
 - When you create a Github account, you must choose a `username`.
@@ -64,7 +63,9 @@ I use Github as a home-base for all assignments, lectures, and resources. It's b
   - Your email address
   - Your website (if you have one)
   - Your image
-  - Slack / Github avatar
+  - Slack / Github Image of You (see below for examples of whats acceptible).
+
+<img src="https://images2.imgbox.com/87/5e/EthImSmk_o.png" width="400">
 
 ## Example README.md
 
