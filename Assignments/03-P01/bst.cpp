@@ -143,7 +143,7 @@ int main() {
     vector<int> arr;
     arr.push_back(root);
     tree.insert(root);
-    for (int i = 1; i < 5000; i++) {
+    for (int i = 1; i < 100; i++) {
         int r = rand() % max;
         while (!unique_value(arr.data(), arr.size(), r)) {
             r = rand() % max;
@@ -152,8 +152,8 @@ int main() {
         arr.push_back(r);
     }
 
-    tree.print();
-    tree.saveDotFile("bst_snapshot.dot");
+    // tree.print();
+    // tree.saveDotFile("bst_snapshot.dot");
 
     Bst tree2;
     tree2.insert(10);
@@ -163,4 +163,5 @@ int main() {
     tree2.insert(7);
     tree2.insert(20);
     cout << "Internal Path Length: " << tree2.ipl() << endl;
+    tree2.saveDotFile("bst_snapshot2.dot");
 }
