@@ -1,3 +1,13 @@
+---
+id: 03-P01
+name: '**Assignment: Implementing Delete in a Binary Search Tree (BST)**'
+description: 'Delete a Node from a binary search tree`
+category: program
+date_assigned: 2026-01-20 12:00
+date_due: 2026-05-20 12:00
+resources: []
+---
+
 ## Assignment 3 - BST Delete
 
 #### Due: 02-03-2025 (Tuesday by Classtime)

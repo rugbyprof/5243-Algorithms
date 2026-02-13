@@ -1,9 +1,10 @@
 # 🧠 Algorithms Study Guide  
+
 **Or: How to Stop Treating Big-O Like a Vibe Check**
 
-If this document feels long, good.  
-If it feels interconnected, *excellent*.  
-If you’re hoping to memorize your way through it — I regret to inform you that algorithms notice.
+- If this document feels long, good.  
+- If it feels interconnected, *excellent*.  
+- If you’re hoping to memorize your way through it — I regret to inform you that algorithms notice.
 
 This handout is doing **three jobs at once**:
 
@@ -79,7 +80,8 @@ Using a plain array and shifting elements = **algorithmic malpractice**
 | Insert/remove (middle) | O(n)        | O(1) *if you’re already there* |
 | Cache friendly         | Yes         | No                             |
 
-**Translation:**  
+#### **Translation:**  
+
 Arrays are fast *when structure is stable*.  
 Lists are flexible *when movement is frequent*.
 

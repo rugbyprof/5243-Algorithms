@@ -1,3 +1,13 @@
+---
+id: 02-A02
+name: 02-A02
+description: 'Getting in Contact'
+category: assignment
+date_assigned: 2026-01-20 12:00
+date_due: 2026-01-22 12:00
+resources: []
+---
+
 ## Assignment 2 - Slack
 
 #### Due: 01-22-2026 (Thursday by Classtime)
