@@ -1,4 +1,3 @@
-```yaml
 ## 1️⃣ “Algorithm vs Data Structure” — A Reality Check Handout  
 **(This one pays dividends all semester)**
 
@@ -158,7 +157,7 @@ These are **thinking questions**, not coding exercises.
 
 ---
 
-## A️⃣ “Choose the Container” Mini Exam (10–15 minutes)
+## A️ “Choose the Container” Mini Exam (10–15 minutes)
 
 Give 4 scenarios.  
 Students must choose:
@@ -174,7 +173,7 @@ Wrong answers become obvious *fast*.
 
 ---
 
-## B️⃣ “What Breaks If…” Questions  
+## B️ “What Breaks If…” Questions  
 **(These are evil and effective)**
 
 Examples:
@@ -187,13 +186,13 @@ These expose **structural dependence**, not syntax.
 
 ---
 
-## C️⃣ “Spot the Lie” (Students Love/Hate This)
+## C️ “Spot the Lie” (Students Love/Hate This)
 
 Give 5 statements:
 - 3 true
 - 2 subtly false
 
-Examples:
+Examples:****
 - “Heapify is O(n log n)” ❌
 - “Inorder traversal always sorts” ❌
 - “DFS always uses recursion” ❌
@@ -202,7 +201,7 @@ Require justification.
 
 ---
 
-## D️⃣ “Same Data, Different Guarantees”
+## D️ “Same Data, Different Guarantees”
 
 Ask:
 > You store the same data in:

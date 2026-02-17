@@ -341,7 +341,7 @@ For a **binary heap**:
 
 So if someone told you insert/remove are O(1), that is simply incorrect for a binary heap. Period.
 
-<img src="https://imgbox.com/F8IIGXyg" widtth="200">
+<a href="https://en.wikipedia.org/wiki/Binary_heap" target="_new"><img src="https://images2.imgbox.com/34/71/F8IIGXyg_o.png" width="200"></a>
 
 Only `peek()` is truly O(1).
 
@@ -373,43 +373,49 @@ It uses **potential functions** to prove that total restructuring work over m op
 
 But your intuition is valid:
 
-> “It’s not constant. It just hides the cost.”
+**Griffin**: 
+>“It’s not constant. It just hides the cost.”
 
-Correct.
+Chad:
+>Correct.
+>
+>Amortized analysis is about bounding **total cost**, not individual cost.
+>
+>Red-Black trees do the same thing:
+>- They delay rotations
+>- But guarantee O(log n) height
 
-Amortized analysis is about bounding **total cost**, not individual cost.
+>No lies. Just accounting tricks done formally. 
 
-Red-Black trees do the same thing:
-- They delay rotations
-- But guarantee O(log n) height
-
-No lies. Just accounting tricks done formally.
+**Griffin:** 
+> So .... lies  (I'm kidding)
 
 ---
 
 # 3️⃣ Now: Heapify — The Part That Feels Magical
 
-You said:
+**Griffin:**
 
-> Heap sort is O(n log n) unless you use heapify.
+> Heap sort is O(n log n) unless you use heapify. (I did not say it like this)
 
-Good. That’s exactly right.
+**Chad:**
+>Good. That’s exactly right.
 
-If you build a heap by inserting n items one-by-one:
+>If you build a heap by inserting n items one-by-one:
 
-\[
+$$
 n \times \log n = O(n \log n)
-\]
+$$
 
-But if you use bottom-up heapify:
+>But if you use bottom-up heapify:
 
-\[
+$$
 O(n)
-\]
+$$
 
-This feels like black magic.
+>This feels like black magic.
 
-Let’s prove why it isn’t.
+>Let’s prove why it isn’t.
 
 ---
 
@@ -419,9 +425,9 @@ Heapify works bottom-up.
 
 We start at the last internal node:
 
-\[
+$$
 \lfloor n/2 \rfloor - 1
-\]
+$$
 
 and bubble down each node.
 
@@ -449,9 +455,9 @@ $$
 
 That series evaluates to:
 
-\[
+$$
 O(n)
-\]
+$$
 
 Not O(n log n).
 
@@ -459,9 +465,9 @@ Why?
 
 Because:
 
-\[
+$$
 \sum_{h=0}^{\infty} \frac{h}{2^h}
-\]
+$$
 
 converges to 2.
 
@@ -493,9 +499,9 @@ Heap sort:
 
 Total:
 
-\[
+$$
 O(n + n\log n) = O(n\log n)
-\]
+$$
 
 You are not ignoring heapify.
 
@@ -505,23 +511,24 @@ You’re correctly observing it is dominated by the removal phase.
 
 # 6️⃣ Your Real Objection (and It’s Legit)
 
-You said:
+**Griffin said:**
 
 > Ignoring the cost of loading the array is convenient.
 
-Yes.
-
-But asymptotic analysis assumes the input already exists.
-
-We don’t count the cost of reading from disk unless we’re analyzing I/O complexity.
-
-Same reason quicksort doesn’t count the cost of allocating the array.
-
-That’s just the model.
-
-Not dishonesty.
-
-Just scope.
+**Chad: **
+>Yes.
+>
+>But asymptotic analysis assumes the input already exists.
+>
+>We don’t count the cost of reading from disk unless we’re analyzing I/O complexity.
+>
+>Same reason quicksort doesn’t count the cost of allocating the array.
+>
+>That’s just the model.
+>
+>Not dishonesty.
+>
+>Just scope.
 
 ---
 
