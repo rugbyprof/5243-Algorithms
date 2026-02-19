@@ -1,12 +1,12 @@
----
+```yaml
+title: Slack Registration
 id: 02-A02
-name: 02-A02
-description: 'Getting in Contact'
+description: 'Getting in Contact with the class'
 category: assignment
 date_assigned: 2026-01-20 12:00
 date_due: 2026-01-22 12:00
 resources: []
----
+```
 
 ## Assignment 2 - Slack
 

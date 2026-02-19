@@ -1,12 +1,12 @@
----
+```yaml
+title: Git Repo
 id: 01-A01
-name: 01-A01
-description: 'Creating a Git Repo'
+description: 'Creating a Git Repo for coursework'
 category: assignment
 date_assigned: 2026-01-20 12:00
 date_due: 2026-01-22 12:00
 resources: []
----
+```
 
 ## Assignment 1 - Code Repository
 
