@@ -77,7 +77,7 @@ Using a plain array and shifting elements = **algorithmic malpractice**
 | ---------------------- | ----------- | ------------------------------ |
 | Memory locality        | Excellent   | Terrible                       |
 | Random access          | O(1)        | O(n)                           |
-| Insert/remove (middle) | O(n)        | O(1) *if you’re already there* |
+| Insert/remove (middle) | O(n)        | O(n)  |
 | Cache friendly         | Yes         | No                             |
 
 #### **Translation:**  
