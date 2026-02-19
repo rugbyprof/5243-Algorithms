@@ -106,11 +106,13 @@ $$
 ## Complexity & Max Edges
 
 For **undirected graph**:
+
 $$
 \text{Max Edges} = \frac{n(n-1)}{2}
 $$
 
 For **directed graph**:
+
 $$
 \text{Max Edges} = n(n-1)
 $$
