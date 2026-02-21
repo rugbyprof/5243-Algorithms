@@ -1,14 +1,14 @@
 ## Assignments
 
-| Folder | Title | Description | Date Due | Filename | Days Left |
+| Folder | Title | Description | Date Due | Days Left | Late |
 |:------|:------|:------|:-----:|:-----:|-----|
-| 01-A01 | Git Repo | Creating a Git Repo for coursework | Thu Jan 22nd @ 1200pm | README.md | -28 |
-| 02-A02 | Slack Registration | Getting in Contact with the class | Thu Jan 22nd @ 1200pm | README.md | -28 |
-| 03-P01 | BST Delete | Delete a Node from a binary search tree | Thu Feb 12th @ 1200pm | README.md | -7 |
-| 04-T01 | **Exam 1** | Exam 1:  | Tue Feb 24th @ 0330pm | README.md | 6 |
-| 05-P02 | **Comparing Stuff: TBD** | Coming soon | Thu Mar 5th @ 0330pm | README.md | 15 |
-| 05-T02 | **Comparing Stuff: TBD** | Coming soon | Thu Mar 12th @ 0330pm | README.md | 22 |
+| <sup>01-A01</sup> | <sup>Git Repo</sup> | <sup>Creating a Git Repo for coursework</sup> | <sup>Thu Jan 22nd @ 1200pm</sup> | <sup>-29</sup> | <sup>🔴</sup> |
+| <sup>02-A02</sup> | <sup>Slack Registration</sup> | <sup>Getting in Contact with the class</sup> | <sup>Thu Jan 22nd @ 1200pm</sup> | <sup>-29</sup> | <sup>🔴</sup> |
+| <sup>03-P01</sup> | <sup>BST Delete</sup> | <sup>Implementing Delete in a Binary Search Tree (BST)</sup> | <sup>Thu Feb 12th @ 1200pm</sup> | <sup>-8</sup> | <sup>🔴</sup> |
+| <sup>04-T01</sup> | <sup>Exam 1</sup> | <sup>Exam 1: </sup> | <sup>Tue Feb 24th @ 0330pm</sup> | <sup>4</sup> | <sup>🟢</sup> |
+| <sup>05-P02</sup> | <sup>Comparing Stuff: TBD</sup> | <sup>Coming soon</sup> | <sup>Thu Mar 5th @ 0330pm</sup> | <sup>13</sup> | <sup>🟢</sup> |
+| <sup>05-T02</sup> | <sup>Comparing Stuff: TBD</sup> | <sup>Coming soon</sup> | <sup>Thu Mar 12th @ 0330pm</sup> | <sup>20</sup> | <sup>🟢</sup> |
 
-<sup>Last Updated: 2026-02-19 (Thu @ 14:37)</sup> 
+<sup>Last Updated: 2026-02-21 (Sat @ 00:32)</sup> 
 
 <sup>***Days Left is only accurate if the `Last Updated` date is the same as todays date. Otherwise, use the due date!***</sup> 
