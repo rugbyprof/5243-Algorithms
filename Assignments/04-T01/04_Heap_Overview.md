@@ -591,7 +591,7 @@ No magic. Just distribution.
 
 ---
 
-# 9️⃣ If You Want a Slightly Spicy Line for Class
+# 9️⃣ A Slightly Spicy Line
 
 > “Fibonacci heaps are asymptotically superior in the same way a Formula 1 car is superior in theory — but most of you are driving a Corolla.”
 
