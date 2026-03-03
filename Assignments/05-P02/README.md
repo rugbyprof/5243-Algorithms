@@ -40,11 +40,11 @@ This assignment emphasizes experimental discipline that is used in graduate cour
 
 By completing this assignment, you will:
 
-1. Empirically validate theoretical complexity.
+1. Empirically validate complexities (expected outcomes, comparing performance, etc.). 
 2. Observe worst-case vs average-case behavior.
-3. Understand how workload affects performance.
-4. Develop reproducible benchmarking methodology.
-5. Practice structured algorithmic reasoning.
+3. Understand how workload affects performance (Well we will try).
+4. Develop reproducible benchmarking methodology (Confident we can do this).
+5. Practice structured algorithmic reasoning (Thats on you ... ).
 
 ---
 
@@ -52,19 +52,21 @@ By completing this assignment, you will:
 
 You will be provided implementations of:
 
-- Dynamic Array
-- Linked List
+- Dynamic Array (not STL Vector)
+- Linked List (generic implementation)
 - Unbalanced Binary Search Tree (BST)
-- Binary Heap
-- Hash Table (specify collision method)
+- Binary Heap 
+- Hash Table (collision resolution = chaining)
 
-You may modify these implementations **only to add instrumentation**.
+You may modify these implementations **only to add instrumentation** (you know ... like injecting code stuff to measure stuff. Where stuff = `comparison`, `operations`,`counts`, etc.)
 
-You may not redesign them.
+>**You may not redesign structures themselves**[^1]
 
 ---
 
 # 🧪 Experimental Architecture
+
+This is a set of programs and scripts where a C++ driver called `runner` invokes python scripts to 
 
 You will use:
 
@@ -127,7 +129,7 @@ This avoids:
 
 BST degradation must be observable here.
 
->Note: BST tests capped at N ≤ 20,000[^1].
+>Note: BST tests capped at N ≤ 20,000[^2].
 
 
 ---
@@ -752,8 +754,6 @@ Your job is to verify and interpret them.
 
 Treat this as a controlled lab, not a timing contest.
 
-[^1]: Limit on the number of values to be placed in the BST.
-[^2]: A random lookup doesn't mean your searching with an existing number in the structure, random = might not be there
 
 ```yaml
 id: algos-program1-counter-definitions-2026-03-03
@@ -995,3 +995,8 @@ That prevents oops I forgot to increment something” disasters.
 
 coming soon.
 
+## Footnotes
+
+[^1]: Unless there is an error in the code logic. 
+[^2]: Limit on the number of values to be placed in the BST.
+[^3]: A random lookup doesn't mean your searching with an existing number in the structure, random = might not be there
