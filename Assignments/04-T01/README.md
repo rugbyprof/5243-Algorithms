@@ -1,9 +1,11 @@
 ```yaml
-id: 04-T01
-title: 'Exam 1'
-description: 'Exam 1: '
-category: test
-date_assigned: 2026-01-20 12:00
+title: Test 1
+description: From Stack & Queues to Binary Heaps
+slug: Exam_01
+id: 05-T01
+name: 05-T01
+category: exam
+date_assigned: 2026-02-09 12:00
 date_due: 2026-02-24 15:30
 resources: []
 ```

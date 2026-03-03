@@ -20,4 +20,3 @@ digraph BST {
     nullR20 [shape=point];
     20 -> nullR20;
 }
-
