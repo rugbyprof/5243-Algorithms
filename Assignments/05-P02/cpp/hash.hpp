@@ -125,7 +125,6 @@ private:
 public:
     Hash() : capacity(0) {}
     ~Hash() override { destroy(); }
-
     const char *name() const override { return "BST"; }
     long long size_ = 0;
 

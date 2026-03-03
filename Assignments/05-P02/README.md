@@ -235,7 +235,7 @@ For each structure under Workload A:
 | N   | Comparisons | Comparisons / N | Comparisons / (N log N) |
 | --- | ----------- | --------------- | ----------------------- |
 
-This forces students to examine growth trends, not just raw numbers.
+This forces you to examine growth trends, not just raw numbers.
 
 ---
 
@@ -950,9 +950,9 @@ Optionally also add:
 
 ---
 
-# Required documentation in student report (short)
+# Required documentation in your report (short)
 
-Students must include a short section:
+You must include a short section:
 
 ## “Counter Definitions”
 - One paragraph describing exactly what increments comparisons and structural_ops for each structure.
@@ -963,7 +963,7 @@ They can copy from this standard—encouraged, even.
 
 # Sanity checks (you can add as “self-audit”)
 
-Students must verify:
+You must verify:
 
 1. **Workload totals match**
    - inserts + deletes + lookups equals number of operations executed.
@@ -979,23 +979,19 @@ Students must verify:
 
 ---
 
-# One instructor tip (optional, but saves grading headaches)
+# Lastly
 
-Require a function like:
+I need you to write a validation function
 
 - `validate_counters()` that prints:
   - operations executed
   - counters summary
   - and asserts totals are consistent
 
-That prevents “we forgot to increment something” disasters.
+That prevents oops I forgot to increment something” disasters.
 
----
 
-If you want, next step is I’ll rewrite the Program 1 spec *as a single polished student-facing document* including:
-- harness rules
-- workload generator rules
-- counter definitions
-- deliverables + rubric
+## Deliverables
 
-(Still no extra ideas. Just consolidation.)
+coming soon.
+
