@@ -1,3 +1,7 @@
+/*
+ * The class UsagePrinter prints help blocks with color.
+ */
+
 #include "termcolor.hpp"
 #include <algorithm>
 #include <iomanip> // where setw is declared
@@ -14,23 +18,28 @@ struct Option {
 class UsagePrinter {
 private:
     std::vector<Option> options;
+    std::vector<std::string> examples;
 
 public:
     void add(std::string flag, std::string arg, std::string desc) {
         options.push_back({flag, arg, desc});
     }
 
+    void addExample(std::string ex) {
+        examples.push_back(ex);
+    }
+
     void print(const std::string &programName) {
 
         using namespace termcolor;
 
-        std::cout << bold << "Usage:\n"
+        std::cout << green << bold << "Usage:\n"
                   << reset;
         std::cout << "  " << bold << programName << reset
                   << " " << cyan << "[OPTIONS]\n\n"
                   << reset;
 
-        std::cout << bold << "Options:\n"
+        std::cout << green << bold << "Options:\n"
                   << reset;
 
         size_t flagWidth = 0;
@@ -57,6 +66,11 @@ public:
             }
 
             std::cout << "   " << o.desc << "\n";
+        }
+        std::cout << std::endl
+                  << green << bold << "Examples:" << reset << std::endl;
+        for (auto &ex : examples) {
+            std::cout << yellow << ex << reset << std::endl;
         }
 
         std::cout << "\n";

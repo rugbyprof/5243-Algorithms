@@ -8,9 +8,10 @@
 #include <vector>        // dynamic arrays
 
 // Third-party libraries
-#include "helpPrinter.hpp"
-#include "json.hpp"      // nlohmann JSON library
-#include "termcolor.hpp" // colored terminal output (optional visual enhancement)
+
+#include "json.hpp"         // nlohmann JSON library
+#include "termcolor.hpp"    // colored terminal output (optional visual enhancement)
+#include "usagePrinter.hpp" //
 
 // Alias to make JSON type shorter to write
 using json = nlohmann::json;
@@ -363,7 +364,7 @@ Args parseArgs(int argc, char *argv[]) {
             //     << "  --preview        Number of operations to preview\n"
             //     << "  --json           Print all operations as JSON\n"
 
-            HelpPrinter help;
+            UsagePrinter help;
 
             help.add("-w, --workload", "<TYPE>", "Workload type (A,B,C,D)");
             help.add("-n, --size", "<N>", "Base problem size N=int");
@@ -371,7 +372,8 @@ Args parseArgs(int argc, char *argv[]) {
             help.add("--json", "", "Emit JSON output");
             help.add("-s, ---save", "<FILENAME>", "Save output to a file");
             help.add("-h, --help", "", "Show help message");
-
+            help.addExample("./workload_generator --json -w C -n 1000 > workload.json");
+            help.addExample("./workload_generator --json -workload B -size 5000 --save workload_B_5000.json");
 
             help.print("workload_generator");
 
