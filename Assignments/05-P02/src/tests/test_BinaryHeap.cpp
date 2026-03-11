@@ -11,6 +11,8 @@ int main() {
 
     std::cout << "top: " << h.top() << "\n";
 
+
+
     h.pop();
     std::cout << "top after pop: " << h.top() << "\n";
 
