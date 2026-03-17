@@ -514,6 +514,10 @@ int main(int argc, char *argv[]) {
         }
     }
 
+    // Example:
+    //./work_generator -w A -n 1000 --save work_A_1000.json
+    //
+    // Will save a file called work_A_1000.json with jobtype A and 1000 jobs.
     if (args.savefile.length() > 0) {
         cout << "Saving json to: " << args.savefile << endl;
         json j = ops;
