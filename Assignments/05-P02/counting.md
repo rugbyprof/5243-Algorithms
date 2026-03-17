@@ -187,7 +187,7 @@ For hash tables, `structural_ops` might count bucket insertions or rehash work.
 
 # Even cleaner: macros if you want very low syntax noise
 
-I usually prefer helper methods over macros, but for student code, macros can make instrumentation very compact.
+I don't usually like macros, but it's also my job to show you different techniques. Having said that, macros can make instrumentation very compact.
 
 ```cpp
 #define CMP()   (++stats.comparisons)
@@ -206,8 +206,3 @@ CMP();
 if (curr->data == value) { ... }
 ```
 
-This is very readable, but macros are less elegant than helper functions.
-
-My vote: use the helper base class unless you want absolute minimal keystrokes.
-
----

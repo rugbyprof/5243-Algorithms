@@ -1,5 +1,6 @@
 // Standard library utilities used throughout the program
-#include <algorithm>     // sort, shuffle
+#include <algorithm> // sort, shuffle
+#include <fstream>
 #include <functional>    // std::function
 #include <iostream>      // cout, cerr
 #include <random>        // random number generation
@@ -12,6 +13,8 @@
 #include "json.hpp"         // nlohmann JSON library
 #include "termcolor.hpp"    // colored terminal output (optional visual enhancement)
 #include "usagePrinter.hpp" //
+
+using namespace std;
 
 // Alias to make JSON type shorter to write
 using json = nlohmann::json;
@@ -325,6 +328,10 @@ struct Args {
     bool emitJson = false;
 
     std::string savefile = "";
+
+    friend ostream &operator<<(ostream &os, const Args &c) {
+        return os << "[w: " << c.workload << ",s: " << c.size << ",p: " << c.preview << ",ej: " << c.emitJson << ",s: " << c.savefile << "]";
+    }
 };
 
 Args parseArgs(int argc, char *argv[]) {
@@ -343,14 +350,16 @@ Args parseArgs(int argc, char *argv[]) {
 
             args.size = std::stoi(argv[++i]);
 
-        } else if (s == "--preview" && i + 1 < argc) {
+        } else if ((s == "-p" || s == "--preview") && i + 1 < argc) {
 
             args.preview = std::stoi(argv[++i]);
 
         } else if (s == "--json") {
 
             args.emitJson = true;
+
         } else if (s == "--save") {
+
             args.savefile = argv[++i];
 
         } else if (s == "-h" || s == "--help") {
@@ -372,9 +381,9 @@ Args parseArgs(int argc, char *argv[]) {
             help.add("--json", "", "Emit JSON output");
             help.add("-s, ---save", "<FILENAME>", "Save output to a file");
             help.add("-h, --help", "", "Show help message");
+            help.add("-p,--preview", "<n>", "Preview the data ");
             help.addExample("./workload_generator --json -w C -n 1000 > workload.json");
             help.addExample("./workload_generator --json -workload B -size 5000 --save workload_B_5000.json");
-
             help.print("workload_generator");
 
             std::exit(0);
@@ -382,6 +391,36 @@ Args parseArgs(int argc, char *argv[]) {
     }
 
     return args;
+}
+
+// ---------------------------------------------------------
+// JSON output mode
+//
+// Why this exists
+//
+//      This mode is meant for other programs to consume, not humans.
+//
+// Example pipeline:
+//
+//      ./workload_generator --json -w C -n 1000 > workload.json
+//
+// Runs the generator and creates 1000 jobs of type C and writes them into a file called `workload.json`
+//
+//      ./workload_generator --json -w C -n 1000 | ./linkedListTest
+//
+// Runs the generator creating same workload as example 1, but is now piping the output to the linkelist
+//  executable to be processed.
+// ---------------------------------------------------------
+//
+void emitJson(auto ops) {
+
+    json j = ops;
+
+    for (auto op : j) {
+        std::cout << op;
+    }
+
+    // std::cout << j.dump(2) << "\n";
 }
 
 // -------------------------------------------------------------
@@ -445,60 +484,42 @@ int main(int argc, char *argv[]) {
     //
     auto ops = workloads[args.workload](args.size);
 
-    // ---------------------------------------------------------
-    // JSON output mode
-    //
-    // Why this exists
-    //
-    //      This mode is meant for other programs to consume, not humans.
-    //
-    // Example pipeline:
-    //
-    //      ./workload_generator --json -w C -n 1000 > workload.json
-    //
-    // Runs the generator and creates 1000 jobs of type C and writes them into a file called `workload.json`
-    //
-    //      ./workload_generator --json -w C -n 1000 | ./linkedListTest
-    //
-    // Runs the generator creating same workload as example 1, but is now piping the output to the linkelist
-    //  executable to be processed.
-    // ---------------------------------------------------------
-    //
     if (args.emitJson) {
+        emitJson(ops);
+    }
 
-        json j = ops;
+    if (args.preview && args.savefile.length() == 0) {
+        // ---------------------------------------------------------
+        // Preview mode
+        // ---------------------------------------------------------
+        //
+        std::cout << "\n----------------------------------\n";
+        std::cout << "Workload: " << args.workload << "\n";
+        std::cout << "n: " << args.size << "\n";
+        std::cout << "Total operations: " << ops.size() << "\n";
+        std::cout << "----------------------------------\n\n";
 
-        for (auto op : j) {
-            std::cout << op;
+        int preview = std::min<int>(args.preview, static_cast<int>(ops.size()));
+
+        // Print first preview operations
+        for (int i = 0; i < preview; i++) {
+
+            json j = ops[i];
+
+            std::cout << j.dump() << "\n";
         }
 
-        // std::cout << j.dump(2) << "\n";
-
-        return 0;
+        if (preview < static_cast<int>(ops.size())) {
+            std::cout << "...\n";
+        }
     }
 
-    // ---------------------------------------------------------
-    // Preview mode
-    // ---------------------------------------------------------
-    //
-    std::cout << "\n----------------------------------\n";
-    std::cout << "Workload: " << args.workload << "\n";
-    std::cout << "n: " << args.size << "\n";
-    std::cout << "Total operations: " << ops.size() << "\n";
-    std::cout << "----------------------------------\n\n";
-
-    int preview = std::min<int>(args.preview, static_cast<int>(ops.size()));
-
-    // Print first preview operations
-    for (int i = 0; i < preview; i++) {
-
-        json j = ops[i];
-
-        std::cout << j.dump() << "\n";
-    }
-
-    if (preview < static_cast<int>(ops.size())) {
-        std::cout << "...\n";
+    if (args.savefile.length() > 0) {
+        cout << "Saving json to: " << args.savefile << endl;
+        json j = ops;
+        // write prettified JSON to another file
+        std::ofstream o(args.savefile);
+        o << std::setw(4) << j << std::endl;
     }
 
     return 0;

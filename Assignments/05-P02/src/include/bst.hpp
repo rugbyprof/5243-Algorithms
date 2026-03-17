@@ -1,5 +1,12 @@
 #pragma once
 
+#include "counters.hpp"
+#include "json.hpp"
+#include <fstream>
+#include <string>
+
+using json = nlohmann::json;
+
 class Bst {
 protected:
     struct Node {
@@ -13,6 +20,7 @@ protected:
     };
 
     Node *root;
+    Counters c{};
 
     // Recursive insert helper
     bool insert(Node *&node, int value) {
@@ -138,10 +146,16 @@ protected:
     }
 
 public:
-    Bst() : root(nullptr) {}
+    Bst() : root(nullptr) {
+    }
 
     virtual ~Bst() {
         clear(root);
+    }
+
+    void runJobFile(string fname) {
+        std::ifstream f(fname);
+        json data = json::parse(f);
     }
 
     bool insert(int value) {
