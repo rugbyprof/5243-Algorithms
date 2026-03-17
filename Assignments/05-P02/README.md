@@ -353,14 +353,14 @@ This shows you a couple of examples on how to run the workload_generator.
 Using the workload generator you can create the files that you need for all your runs. You can do it in a file that will run all different runs of the generator. Lets call it `batch.sh`:
 
 ```sh
-./workload_generator --json -workload A  --size 1000 --save workload_A_1000.json
-./workload_generator --json -workload A  --size 5000 --save workload_A_5000.json
-./workload_generator --json -workload A --size 10000 --save workload_A_10000.json
-./workload_generator --json -workload A --size 20000 --save workload_A_20000.json
-./workload_generator --json -workload B  --size 1000 --save workload_B_1000.json
-./workload_generator --json -workload B - -size 5000 --save workload_B_5000.json
-./workload_generator --json -workload B --size 10000 --save workload_B_10000.json
-./workload_generator --json -workload B --size 20000 --save workload_B_20000.json
+./workload_generator  -workload A  --size 1000 --save workload_A_1000.json
+./workload_generator  -workload A  --size 5000 --save workload_A_5000.json
+./workload_generator  -workload A --size 10000 --save workload_A_10000.json
+./workload_generator  -workload A --size 20000 --save workload_A_20000.json
+./workload_generator  -workload B  --size 1000 --save workload_B_1000.json
+./workload_generator  -workload B - -size 5000 --save workload_B_5000.json
+./workload_generator  -workload B --size 10000 --save workload_B_10000.json
+./workload_generator  -workload B --size 20000 --save workload_B_20000.json
 # you can add the rest ...
 ```
 
@@ -394,7 +394,6 @@ for w in workloads:
 
         cmd = [
             "./workload_generator",
-            "--json",
             "--workload", w,
             "--size", str(n),
             "--save", outfile
