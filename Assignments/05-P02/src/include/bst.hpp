@@ -8,6 +8,22 @@
 
 using json = nlohmann::json;
 
+
+using namespace std;
+
+// struct Counters {
+//     long long comparisons = 0;
+//     long long structural_ops = 0;
+//     long long inserts = 0;
+//     long long deletes = 0;
+//     long long lookups = 0;
+//     long long resize_events = 0;
+
+//     ostream& operator <<(ostream& os, const Counter &o){
+//         return os << o.comparisons<<" "<<o.structural_ops<<" "<<o.inserts<<std::endl;
+//     }
+// };
+
 class Bst
 {
 protected:
@@ -28,22 +44,22 @@ protected:
     // Recursive insert helper
     bool insert(Node *&node, int value)
     {
-
-        // comparison++
+        c.comparisons++;
         if (!node)
         {
-            // structural_ops++
+            c.structural_ops++;
             node = new Node(value);
             return true;
         }
 
-        // comparison++
+        c.comparisons++;
         if (value < node->data)
         {
 
             return insert(node->left, value);
         }
-        // comparison++
+        
+        c.comparisons++;
         if (value > node->data)
         {
             return insert(node->right, value);
@@ -57,7 +73,7 @@ protected:
     bool contains(Node *node, int value) const
     {
 
-        // comparison++
+        // comparison+
         if (!node)
         {
 
@@ -170,6 +186,11 @@ protected:
 public:
     Bst() : root(nullptr)
     {
+        
+    }
+
+    void reset(){
+         c = {}; 
     }
 
     virtual ~Bst()
@@ -177,12 +198,19 @@ public:
         clear(root);
     }
 
+    Counters getCounters(){
+        return c;
+    }
+
+    // example to read in json file and process it
     void runJobFile(std::string fname)
     {
         std::ifstream f(fname);
         json j = json::parse(f);
         // std::cout<<j<<std::endl;
 
+        // iterate over json object and print out each operation with value
+        // replace the print with actual operations, to process entire file.
         for (auto &element : j)
         {
             std::cout << element << '\n';
@@ -192,7 +220,9 @@ public:
     bool insert(int value)
     {
         // insert++
+        c.inserts++;
         return insert(root, value);
+        
     }
 
     bool contains(int value) const
