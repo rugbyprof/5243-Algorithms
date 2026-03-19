@@ -3,13 +3,16 @@
 #include "counters.hpp"
 #include "json.hpp"
 #include <fstream>
+#include <iostream>
 #include <string>
 
 using json = nlohmann::json;
 
-class Bst {
+class Bst
+{
 protected:
-    struct Node {
+    struct Node
+    {
         int data;
         Node *left;
         Node *right;
@@ -23,22 +26,26 @@ protected:
     Counters c{};
 
     // Recursive insert helper
-    bool insert(Node *&node, int value) {
+    bool insert(Node *&node, int value)
+    {
 
         // comparison++
-        if (!node) {
+        if (!node)
+        {
             // structural_ops++
             node = new Node(value);
             return true;
         }
 
         // comparison++
-        if (value < node->data) {
+        if (value < node->data)
+        {
 
             return insert(node->left, value);
         }
         // comparison++
-        if (value > node->data) {
+        if (value > node->data)
+        {
             return insert(node->right, value);
         }
 
@@ -47,21 +54,25 @@ protected:
     }
 
     // Recursive search helper
-    bool contains(Node *node, int value) const {
+    bool contains(Node *node, int value) const
+    {
 
         // comparison++
-        if (!node) {
+        if (!node)
+        {
 
             return false;
         }
 
         // comparison++
-        if (value == node->data) {
+        if (value == node->data)
+        {
 
             return true;
         }
         // comparison++
-        if (value < node->data) {
+        if (value < node->data)
+        {
 
             return contains(node->left, value);
         }
@@ -70,9 +81,11 @@ protected:
     }
 
     // Find smallest node in subtree
-    Node *findMin(Node *node) const {
+    Node *findMin(Node *node) const
+    {
         // lookup++
-        while (node && node->left) {
+        while (node && node->left)
+        {
             // comparison++
             node = node->left;
         }
@@ -80,27 +93,32 @@ protected:
     }
 
     // Recursive erase helper
-    bool erase(Node *&node, int value) {
+    bool erase(Node *&node, int value)
+    {
 
         // comparison++
-        if (!node) {
+        if (!node)
+        {
             return false;
         }
 
         // comparison++
-        if (value < node->data) {
+        if (value < node->data)
+        {
             return erase(node->left, value);
         }
 
         // comparison++
-        if (value > node->data) {
+        if (value > node->data)
+        {
             return erase(node->right, value);
         }
 
         // Found node to delete
 
         // Case 1: leaf node
-        if (!node->left && !node->right) {
+        if (!node->left && !node->right)
+        {
             //
             // structural_ops++
             delete node;
@@ -109,7 +127,8 @@ protected:
         }
 
         // Case 2: only right child
-        if (!node->left) {
+        if (!node->left)
+        {
             Node *temp = node;
             node = node->right;
             // structural_ops++
@@ -118,7 +137,8 @@ protected:
         }
 
         // Case 3: only left child
-        if (!node->right) {
+        if (!node->right)
+        {
             Node *temp = node;
             node = node->left;
             // structural_ops++
@@ -133,9 +153,11 @@ protected:
     }
 
     // Postorder cleanup helper
-    void clear(Node *node) {
+    void clear(Node *node)
+    {
         // compare++
-        if (!node) {
+        if (!node)
+        {
             return;
         }
 
@@ -146,34 +168,47 @@ protected:
     }
 
 public:
-    Bst() : root(nullptr) {
+    Bst() : root(nullptr)
+    {
     }
 
-    virtual ~Bst() {
+    virtual ~Bst()
+    {
         clear(root);
     }
 
-    void runJobFile(string fname) {
+    void runJobFile(std::string fname)
+    {
         std::ifstream f(fname);
-        json data = json::parse(f);
+        json j = json::parse(f);
+        // std::cout<<j<<std::endl;
+
+        for (auto &element : j)
+        {
+            std::cout << element << '\n';
+        }
     }
 
-    bool insert(int value) {
+    bool insert(int value)
+    {
         // insert++
         return insert(root, value);
     }
 
-    bool contains(int value) const {
+    bool contains(int value) const
+    {
         // lookup++
         return contains(root, value);
     }
 
-    bool erase(int value) {
+    bool erase(int value)
+    {
         // delete++
         return erase(root, value);
     }
 
-    virtual const char *name() const {
+    virtual const char *name() const
+    {
         return "BST";
     }
 };
