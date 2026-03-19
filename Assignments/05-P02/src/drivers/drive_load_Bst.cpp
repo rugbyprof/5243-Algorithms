@@ -34,5 +34,9 @@ int main(int argc,char**argv) {
 
     cout<<tree.getCounters();
 
+    tree.save("yourfilename",false);
+
+
+
 
 }

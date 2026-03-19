@@ -186,11 +186,14 @@ protected:
 public:
     Bst() : root(nullptr)
     {
-        
+
     }
 
     void reset(){
          c = {}; 
+    }
+    void save(string filename,bool dict=true){
+        c.saveCounters(filename,dict);
     }
 
     virtual ~Bst()
