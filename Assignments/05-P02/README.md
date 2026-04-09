@@ -1,3 +1,15 @@
+```yaml
+title: Program 02
+description: Comparing Lookup Type Data Structures
+slug: 05-P02
+id: 05-P02
+name: 05-P02
+category: program
+date_assigned: 2026-03-09 12:00
+date_due: 2026-03-24 15:30
+resources: []
+```
+
 ## Program 2 - Comparing Lookup Type Data Structures
 
 ### Provided to You

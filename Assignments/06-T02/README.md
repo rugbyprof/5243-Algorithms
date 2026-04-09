@@ -5,8 +5,8 @@ slug: Exam_02
 id: 05-T02
 name: 05-T02
 category: exam
-date_assigned: 2026-02-09 12:00
-date_due: 2026-02-24 15:30
+date_assigned: 2026-04-08 12:00
+date_due: 2026-04-16 15:30
 resources: []
 ```
 
