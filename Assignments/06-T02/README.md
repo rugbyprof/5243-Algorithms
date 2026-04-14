@@ -1063,6 +1063,143 @@ A couple of notes for your sanity: Q5 is a sneaky one — students almost univer
 
 ---
 
+## Section 15 — The Hard Questions
+
+These five topics are where students who memorized the material diverge from students who understood it.
+
+---
+
+### Gap 1 — The Load Factor Behavior Curve
+
+Both chaining and open addressing degrade as α rises, but in completely different shapes.
+
+**Separate chaining — linear degradation:**
+
+Expected comparisons scale with α directly: successful search ≈ 1 + α/2; unsuccessful ≈ 1 + α. At α = 2 chains average 2 elements — annoying but manageable. At α = 10 they average 10 — clearly bad, but there is no cliff. Each slot is independent; a long chain at slot 3 has zero effect on slot 7.
+
+**Open addressing — hyperbolic collapse:**
+
+Expected probes for linear probing: successful ≈ ½(1 + 1/(1−α)), unsuccessful ≈ ½(1 + 1/(1−α)²).
+
+| α    | Successful probes | Unsuccessful probes |
+|------|-------------------|---------------------|
+| 0.50 | 1.5               | 2.5                 |
+| 0.75 | 2.5               | 8.5                 |
+| 0.90 | 5.5               | 50.5                |
+| 0.99 | 50.5              | ~5 000              |
+
+The table breaks at α → 1. The reason is **clustering**: a long run of filled slots forces every key that hashes anywhere into that run to traverse the whole thing before finding an empty slot. The run grows with every insertion — positive feedback — and eventually one cluster dominates.
+
+**Why the resize threshold is 0.75, not 1.0:**
+By α = 0.75, clustering is already meaningful (2.5× slower unsuccessful search than at α = 0.5). At α = 0.90 you're 20× slower for unsuccessful search. The threshold is chosen to stay left of the cliff, not at the bottom of it.
+
+**The three-step cascade:**
+1. Two keys collide → a small cluster forms.
+2. Any key hashing into or immediately after that cluster extends it (linear probing) or follows the same probe path (quadratic).
+3. The extended cluster intercepts more keys. Eventually a cluster covers most of the table and probing becomes O(n).
+
+---
+
+### Gap 2 — Amortized Analysis: What It Actually Means
+
+> "Usually O(1) but sometimes slow" is **not** what amortized O(1) means.
+
+Amortized O(1) is a statement about **aggregate cost**: for any sequence of n operations, the total cost is O(n). The cost of individual operations may vary; the promise is on the sum.
+
+**Dynamic array (Python list / C++ vector) — append:**
+- Normal case: write to the next slot — O(1).
+- Occasional case: array is full; allocate 2× space, copy all n elements — O(n).
+- Why it's still amortized O(1): doubling means resizes happen at sizes 1, 2, 4, 8, …, n. Copy costs at each resize: 1 + 2 + 4 + … + n ≤ 2n. Total cost for n appends ≤ n (writes) + 2n (copies) = 3n = O(n). Cost per append = O(1).
+
+**The bank account model:** charge every cheap append a $2 "credit." When a resize happens, there are always ≥ n/2 cheap appends since the last resize, banking ≥ n credits — exactly enough to pay the O(n) copy.
+
+**Hash table resize:**
+Same argument. Resize costs O(n) but occurs after O(n) insertions (when α crosses the threshold). Total copy work across all resizes ≤ 2n = O(n). Amortized O(1) per insertion.
+
+**What students fake:** They say "amortized O(1)" and mean "O(1) most of the time." When pressed, they cannot say why it is safe to ignore the occasional O(n) resize. The answer is the geometric series argument: resize costs double each time, but so does the number of free operations between resizes. The expensive operation is always pre-paid by the cheap ones.
+
+---
+
+### Gap 3 — Stable Sort and Why Order Matters in Pipelines
+
+A sort is **stable** if equal elements appear in the output in the same relative order they appeared in the input.
+
+| Algorithm      | Stable? | Notes |
+|----------------|---------|-------|
+| Merge sort     | Yes     | Always |
+| Insertion sort | Yes     | Always |
+| Timsort        | Yes     | Python's default sort |
+| Quicksort      | No      | In-place variant |
+| Heapsort       | No      | |
+| Selection sort | No      | |
+
+**When stability matters:**
+
+*Multi-key sort pipelines:* To sort records by (department, salary), sort by salary first (stably), then sort by department (stably). The second sort preserves the salary ordering within each department because stability keeps equal-department records in their salary order from the first pass. If the second sort is unstable, the salary ordering within each department is destroyed — records with the same department are shuffled arbitrarily.
+
+*User interfaces:* A to-do list sorted by priority. Items with the same priority should stay in their original creation order. An unstable sort may reorder equal-priority items on every render — visually jarring with no logical justification.
+
+*Non-determinism in pipelines:* An unstable sort applied twice to the same input with equal keys may produce different orderings depending on the input's initial state. This makes pipelines that depend on sort order hard to test and intermittently wrong.
+
+**The rule:** Any time you sort compound keys in sequence, or the sort output feeds a downstream system that assumes some ordering is preserved, use a stable sort. An unstable sort optimizes locally and can silently corrupt downstream logic.
+
+---
+
+### Gap 4 — Worst-case vs Expected-case: The Hash Table Religion
+
+Most references say hash table lookup is O(1). This is a dangerous shorthand.
+
+**The precise guarantee:**
+> Hash table lookup is O(1) *expected*, under the assumption of a uniform, random hash function and managed load factor.
+
+It is **not** O(1) worst-case. All three collision schemes degrade to O(n) worst-case:
+- Separate chaining: all n keys in the same chain → n comparisons.
+- Open addressing: all n keys probe the same cluster → n probes.
+
+**When worst-case is real — adversarial inputs:**
+
+If an attacker knows your hash function, they can construct a set of keys that all hash to the same slot. Sending crafted HTTP headers to a web server that hashes header names with a public, deterministic hash function can force O(n) per lookup for n headers — a real denial-of-service vector exploited against early versions of PHP, Python, Java, and Ruby servers.
+
+**The fix — hash randomization:**
+
+Python (since 3.3), Java, and Rust randomize a per-process seed mixed into the hash function at startup. Each run uses a different seed, so an attacker cannot pre-compute a collision set without knowing the seed. This makes adversarial collision attacks statistically infeasible.
+
+**The lesson:**
+"Expected" means the expectation is taken over the randomness of the hash function. If the hash function is deterministic and known, the expectation is meaningless — there is no randomness. "Expected O(1)" and "O(1) always" are different guarantees. Knowing which one you have determines whether your system is robust to adversarial inputs.
+
+| Scenario | Lookup cost |
+|----------|-------------|
+| Good hash, low α | O(1) expected |
+| Bad hash (all keys collide) | O(n) always |
+| Adversarial keys, public hash | O(n) per lookup |
+| Hash randomization enabled | O(1) expected with high probability |
+
+---
+
+### Gap 5 — Memory Tradeoffs: When Space Costs Performance
+
+**Trie memory overhead:**
+
+A trie with n strings of maximum length L over an alphabet of size |Σ| uses O(|Σ| · n · L) space in the worst case — one pointer per character per node. For 128-character ASCII with strings of length 20, a trie of 1 000 strings could require 2.56 million pointers even if most point to null.
+
+Use a trie when: prefix operations dominate (autocomplete, spell-check, longest-prefix routing). Use a hash table when: only exact-match lookup is needed. Paying the trie's memory cost for work you never do is waste.
+
+**Hash table: the space vs performance curve:**
+
+Every empty slot in an open-addressing table is reserved memory that does no work. At α = 0.5, half the table is wasted. Shrinking α improves lookup performance but wastes memory; growing α reclaims memory but degrades performance. The resize threshold is a tuned point on this curve — there is no free lunch.
+
+Chaining has the opposite problem: slots are compact (one pointer each), but every element carries a pointer for the chain. For a hash table of 32-bit integers, each value is 4 bytes but the chain pointer is 8 bytes — 200% memory overhead per element. For large values (structs) the pointer overhead is negligible; for small values it dominates.
+
+**Array vs linked list locality:**
+
+Modern CPUs load memory in 64-byte cache lines. Accessing one element of a contiguous array brings several neighbors into cache for free — sequential traversal is extremely fast. Traversing a linked list follows pointers to arbitrary heap addresses; each step is a potential cache miss, stalling the CPU for 100–300 cycles.
+
+**Practical consequence:** An open-addressing hash table (array-backed probing) often outperforms a chaining hash table at the same load factor in real benchmarks, even when the theoretical probe counts are similar — because probing steps within a linear run land in the same cache line, while following chain pointers does not.
+
+The general rule: **contiguous memory beats pointer-following** whenever the access pattern is even slightly sequential or local. This is why arrays, heaps, and open-addressing tables often beat their linked-list counterparts in practice.
+
+---
+
 ## The Closing Principle
 
 > "Performance isn't about code. It's about choosing the right system."
