@@ -14,8 +14,8 @@ resources: []
 
 > Why Your Code Breaks: Containers, Algorithms, and Lies
 
-> "When an algorithm is slow, it's usually not the algorithm.
-> It's the mismatch between assumptions and guarantees."
+<!-- > "When an algorithm is slow, it's usually not the algorithm.
+> It's the mismatch between assumptions and guarantees." -->
 
 ---
 
