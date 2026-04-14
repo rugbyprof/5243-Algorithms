@@ -83,10 +83,13 @@ The algorithm's name does not tell you its cost. The container does.
 
 ### Binary Search
 
-| Container   | Cost       | Why                                    |
-| ----------- | ---------- | -------------------------------------- |
-| Array       | O(log n)   | O(1) random access makes `mid` instant |
-| Linked List | O(n log n) | Accessing `mid` requires traversal     |
+| Container   | Cost     | Why                                    |
+| ----------- | -------- | -------------------------------------- |
+| Array       | O(log n) | O(1) random access makes `mid` instant |
+| Linked List | O(n)     | Accessing `mid` requires traversal     |
+
+> You want to say O(n lg n) for Linked List. Why?
+> $\frac{n}{2} + \frac{n}{4} + \frac{n}{8} + \cdots$
 
 ### Insert into Sorted Structure
 
@@ -104,15 +107,18 @@ The algorithm's name does not tell you its cost. The container does.
 | Sorted List   | O(n)     | O(1)       |
 | Unsorted List | O(1)     | O(n)       |
 
-The right choice depends on your workload. Heavy inserts? Unsorted list may win. Heavy removals? You need the heap.
+The right choice depends on your workload.
+
+- **Heavy inserts**? Unsorted list may win.
+- **Heavy removals**? You need the heap.
 
 ---
 
-## Section 4 — Insert / Delete / Search Are Policies, Not Operations
+## Section 4 — Are Insert / Delete / Search Policies?, Or Operations?
 
 The words insert, delete, and search describe **families of behavior**, not a single defined action.
 
-### Insert Policies
+### Insert ~~Policies~~ Operations
 
 | Container  | What "insert" actually means                            |
 | ---------- | ------------------------------------------------------- |
@@ -123,7 +129,7 @@ The words insert, delete, and search describe **families of behavior**, not a si
 | Hash Table | Hash the key; handle collision; store at computed index |
 | Trie       | Walk character by character; create nodes as needed     |
 
-### Delete Policies
+### Delete ~~Policies~~ Operations
 
 | Container | What "delete" actually means                              |
 | --------- | --------------------------------------------------------- |
@@ -132,7 +138,7 @@ The words insert, delete, and search describe **families of behavior**, not a si
 | Heap      | Remove root; replace with last element; sift down         |
 | BST       | Find node; handle 0/1/2 children; may restructure subtree |
 
-### Search Policies
+### Search ~~Policies~~ Operations
 
 | Method         | Mechanism                         | Requires                   |
 | -------------- | --------------------------------- | -------------------------- |
@@ -157,9 +163,20 @@ These are examples of mismatches. For each one, identify: the goal, the mismatch
 mid = traverse_to(list, len // 2)   # O(n) just to get mid
 ```
 
-**Goal:** Fast lookup in sorted data.  
-**Mismatch:** Binary search assumes O(1) access to any index. A linked list only provides sequential access. Reaching `mid` requires traversal from the head. The traversal costs across all steps form a convergent series (n/2 + n/4 + n/8 + ...) that totals **O(n)** — no faster than linear search, and far more complex.  
-**Fix:** Use an array/vector for binary search, or use a balanced BST.
+#### Goal:
+
+- Fast lookup in sorted data.
+
+#### Mismatch:
+
+- Binary search assumes O(1) access to any index.
+- A linked list only provides sequential access.
+- Reaching `mid` requires traversal from the head.
+- The traversal costs across all steps form a convergent series ($\frac{n}{2} + \frac{n}{4} + \frac{n}{8} + ...$) that totals **O(n)** — no faster than linear search, and far more complex.
+
+#### Fix:
+
+- Use an array/vector for binary search, or use a balanced BST.
 
 ---
 
@@ -173,9 +190,18 @@ for _ in range(100_000):
     pq.remove(highest)
 ```
 
-**Goal:** Priority queue with many extractions.  
-**Mismatch:** Unsorted list gives O(1) insert but O(n) remove-max. At 100k removals, this is O(n²) total.  
-**Fix:** Use a binary heap — O(log n) per removal.
+#### Goal:
+
+- Priority queue with many extractions.
+
+#### Mismatch:
+
+- Unsorted list gives O(1) insert but O(n) remove-max.
+- At 100k removals, this is O(n²) total.
+
+#### Fix:
+
+- Use a binary heap — O(log n) per removal.
 
 ---
 
@@ -187,9 +213,20 @@ q.append("A")
 first = q.pop(0)   # shifts every remaining element
 ```
 
-**Goal:** FIFO queue.  
-**Mismatch:** Python lists are arrays. Removing from index 0 requires shifting all remaining elements — O(n) per removal.  
-**Fix:** Use `collections.deque`, which supports O(1) front removal.
+#### Goal:
+
+- FIFO queue.
+
+#### Mismatch:
+
+- Python lists are arrays.
+- Removing from index 0 requires shifting all remaining elements — O(n) per removal.
+
+#### Fix:
+
+- Use `collections.deque`, which supports O(1) front removal.
+
+> Is this language specific?
 
 ---
 
@@ -200,9 +237,17 @@ for value in sorted_data:
     insert_bst(root, value)   # always inserts to the right
 ```
 
-**Goal:** Balanced BST with O(log n) operations.  
-**Mismatch:** Sorted input makes every insert go to the same side. The tree degenerates into a linked list with O(n) height.  
-**Fix:** Use AVL or Red-Black tree, which enforce height balance regardless of input order.
+#### Goal :
+
+- Balanced BST with O(log n) operations.
+
+#### Mismatch :
+
+- Sorted input makes every insert go to the same side. The tree degenerates into a linked list with O(n) height.
+
+#### Fix :
+
+- Use AVL or Red-Black tree, which enforce height balance regardless of input order.
 
 ---
 
@@ -216,9 +261,20 @@ for word in words:
 print(sorted(table.keys()))   # has to sort anyway
 ```
 
-**Goal:** Fast lookup AND ordered traversal.  
-**Mismatch:** Hash tables do not maintain sorted order. You get O(1) lookup but no ordering guarantee.  
-**Fix:** Use a balanced BST (AVL/Red-Black) which provides O(log n) lookup and in-order traversal for free, or a trie if prefix queries matter.
+#### Goal :
+
+- Fast lookup AND ordered traversal.
+
+#### Mismatch :
+
+- Hash tables do not maintain sorted order. You get O(1) lookup but no ordering guarantee.
+
+#### Fix :
+
+- Use a balanced BST (AVL/Red-Black) which provides O(log n) lookup and in-order traversal for free, or a trie if prefix queries matter.
+
+> Python sorted dict?
+> Whats the trade offs?
 
 ---
 
@@ -231,9 +287,19 @@ for item in data_stream:   # 1,000,000 items
         seen.append(item)
 ```
 
-**Goal:** Collect unique items.  
-**Mismatch:** `in` on a list is a linear scan. At 1M items, this becomes O(n²) total.  
-**Fix:** Use a `set` or hash table — membership check is O(1) average.
+#### Goal :
+
+- Collect unique items.
+
+#### Mismatch :
+
+- `in` on a list is a linear scan. At 1M items, this becomes O(n²) total.
+
+#### Fix :
+
+- Use a `set` or hash table — membership check is O(1) average.
+
+> Or a python dictionary (like a hash table)
 
 ---
 
@@ -247,10 +313,21 @@ for ch in message:
         if sym == ch: ...
 ```
 
-**Goal:** Fast character-to-code lookup during encoding.  
-**Mismatch:** A Huffman tree produces the codes efficiently, but storing them in a list makes every lookup O(k) where k is alphabet size.  
-**Fix:** Load codes into a dictionary/hash table after building the tree. Encoding becomes O(1) per character.  
-**Lesson:** Even when the constructing algorithm is optimal, using the wrong companion container destroys the benefit.
+#### Goal :
+
+- Fast character-to-code lookup during encoding.
+
+#### Mismatch :
+
+- A Huffman tree produces the codes efficiently, but storing them in a list makes every lookup O(k) where k is alphabet size.
+
+#### Fix :
+
+- Load codes into a dictionary/hash table after building the tree. Encoding becomes O(1) per character.
+
+#### Lesson:
+
+- Even when the constructing algorithm is optimal, using the wrong companion container destroys the benefit.
 
 ---
 
@@ -261,12 +338,21 @@ for ch in message:
 trie.search("ID_48291")   # exact match, no prefix queries
 ```
 
-**Goal:** Check if an exact ID exists.  
-**Mismatch:** Tries are built for prefix operations. If you never exploit prefix relationships, you pay the trie's memory overhead for nothing.  
-**Fix:** Use a hash table for O(1) average exact membership testing.  
-**Lesson:** Every structure is the right choice for some workload. Choose based on what operations actually dominate.
+#### Goal :
 
----
+- Check if an exact ID exists.
+
+#### Mismatch :
+
+- Tries are built for prefix operations. If you never exploit prefix relationships, you pay the trie's memory overhead for nothing.
+
+#### Fix :
+
+- Use a hash table for O(1) average exact membership testing.
+
+#### Lesson:
+
+- Every structure is the right choice for some workload. Choose based on what operations actually dominate.
 
 ---
 
@@ -289,7 +375,7 @@ Not every algorithm works on every container. This table is the mental lens for 
 
 ## Section 7 — Traversal Intent
 
-Students memorize traversal names. The exam asks _why_ you chose one over another.
+Students tend to memorize traversal names, but the exam asks _why_ you chose one over another.
 
 | Goal                       | Traversal          | Why                                                    |
 | -------------------------- | ------------------ | ------------------------------------------------------ |
@@ -317,8 +403,13 @@ Recursion is neither elegant magic nor forbidden syntax. It is a tool with a cle
 | Binary search                  | Either                 | Both iterative and recursive are correct                   |
 | DFS                            | Either                 | Recursive DFS = implicit stack; iterative = explicit stack |
 
-**Practical rule:** If the recursive depth could exceed a few thousand, use an explicit stack instead.  
-**Tree vs Graph distinction:** Trees cannot have cycles, so recursive tree traversal needs no visited set. Graphs can cycle, so DFS on a graph _must_ track visited nodes or it will loop forever.
+#### Practical rule:
+
+- If the recursive depth could exceed a few thousand, use an explicit stack instead.
+
+#### Tree vs Graph distinction:
+
+- Trees cannot have cycles, so recursive tree traversal needs no visited set. Graphs can cycle, so DFS on a graph _must_ track visited nodes or it will loop forever.
 
 > "Trees don't need cycle detection because they promised not to lie."
 
@@ -342,6 +433,8 @@ These are the types of reasoning the exam will require:
 
 - Why does the same operation name produce different behavior here?
 - Which hidden cost dominates this scenario?
+
+>
 
 **Policy definition:**
 
@@ -1208,6 +1301,12 @@ The general rule: **contiguous memory beats pointer-following** whenever the acc
 
 ## The Closing Principle
 
-> "Performance isn't about code. It's about choosing the right system."
+> "Performance isn't about code. It's about choosing the right system" (things working together ... smoothly).
+
+OR
+
+> "Choose the wrong container type and you get smelly, burnt, dumpster fire code." (Linus Torvald[^1])
 
 The container and algorithm must agree. The policy must match the workload. When all three align, performance follows. When any one is wrong, the entire system suffers — often in ways that don't show up until scale.
+
+[^1]: Not really. Maybe it was Bill Gates? OH! Elon Musk ... that's the ticket.
