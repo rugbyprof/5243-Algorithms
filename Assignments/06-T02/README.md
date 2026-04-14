@@ -12,6 +12,8 @@ resources: []
 
 # Containers, Algorithms, and Policies — Study Guide
 
+> Why Your Code Breaks: Containers, Algorithms, and Lies
+
 > "When an algorithm is slow, it's usually not the algorithm.
 > It's the mismatch between assumptions and guarantees."
 
@@ -1082,7 +1084,7 @@ Expected comparisons scale with α directly: successful search ≈ 1 + α/2; uns
 Expected probes for linear probing: successful ≈ ½(1 + 1/(1−α)), unsuccessful ≈ ½(1 + 1/(1−α)²).
 
 | α    | Successful probes | Unsuccessful probes |
-|------|-------------------|---------------------|
+| ---- | ----------------- | ------------------- |
 | 0.50 | 1.5               | 2.5                 |
 | 0.75 | 2.5               | 8.5                 |
 | 0.90 | 5.5               | 50.5                |
@@ -1094,6 +1096,7 @@ The table breaks at α → 1. The reason is **clustering**: a long run of filled
 By α = 0.75, clustering is already meaningful (2.5× slower unsuccessful search than at α = 0.5). At α = 0.90 you're 20× slower for unsuccessful search. The threshold is chosen to stay left of the cliff, not at the bottom of it.
 
 **The three-step cascade:**
+
 1. Two keys collide → a small cluster forms.
 2. Any key hashing into or immediately after that cluster extends it (linear probing) or follows the same probe path (quadratic).
 3. The extended cluster intercepts more keys. Eventually a cluster covers most of the table and probing becomes O(n).
@@ -1107,6 +1110,7 @@ By α = 0.75, clustering is already meaningful (2.5× slower unsuccessful search
 Amortized O(1) is a statement about **aggregate cost**: for any sequence of n operations, the total cost is O(n). The cost of individual operations may vary; the promise is on the sum.
 
 **Dynamic array (Python list / C++ vector) — append:**
+
 - Normal case: write to the next slot — O(1).
 - Occasional case: array is full; allocate 2× space, copy all n elements — O(n).
 - Why it's still amortized O(1): doubling means resizes happen at sizes 1, 2, 4, 8, …, n. Copy costs at each resize: 1 + 2 + 4 + … + n ≤ 2n. Total cost for n appends ≤ n (writes) + 2n (copies) = 3n = O(n). Cost per append = O(1).
@@ -1124,22 +1128,22 @@ Same argument. Resize costs O(n) but occurs after O(n) insertions (when α cross
 
 A sort is **stable** if equal elements appear in the output in the same relative order they appeared in the input.
 
-| Algorithm      | Stable? | Notes |
-|----------------|---------|-------|
-| Merge sort     | Yes     | Always |
-| Insertion sort | Yes     | Always |
+| Algorithm      | Stable? | Notes                 |
+| -------------- | ------- | --------------------- |
+| Merge sort     | Yes     | Always                |
+| Insertion sort | Yes     | Always                |
 | Timsort        | Yes     | Python's default sort |
-| Quicksort      | No      | In-place variant |
-| Heapsort       | No      | |
-| Selection sort | No      | |
+| Quicksort      | No      | In-place variant      |
+| Heapsort       | No      |                       |
+| Selection sort | No      |                       |
 
 **When stability matters:**
 
-*Multi-key sort pipelines:* To sort records by (department, salary), sort by salary first (stably), then sort by department (stably). The second sort preserves the salary ordering within each department because stability keeps equal-department records in their salary order from the first pass. If the second sort is unstable, the salary ordering within each department is destroyed — records with the same department are shuffled arbitrarily.
+_Multi-key sort pipelines:_ To sort records by (department, salary), sort by salary first (stably), then sort by department (stably). The second sort preserves the salary ordering within each department because stability keeps equal-department records in their salary order from the first pass. If the second sort is unstable, the salary ordering within each department is destroyed — records with the same department are shuffled arbitrarily.
 
-*User interfaces:* A to-do list sorted by priority. Items with the same priority should stay in their original creation order. An unstable sort may reorder equal-priority items on every render — visually jarring with no logical justification.
+_User interfaces:_ A to-do list sorted by priority. Items with the same priority should stay in their original creation order. An unstable sort may reorder equal-priority items on every render — visually jarring with no logical justification.
 
-*Non-determinism in pipelines:* An unstable sort applied twice to the same input with equal keys may produce different orderings depending on the input's initial state. This makes pipelines that depend on sort order hard to test and intermittently wrong.
+_Non-determinism in pipelines:_ An unstable sort applied twice to the same input with equal keys may produce different orderings depending on the input's initial state. This makes pipelines that depend on sort order hard to test and intermittently wrong.
 
 **The rule:** Any time you sort compound keys in sequence, or the sort output feeds a downstream system that assumes some ordering is preserved, use a stable sort. An unstable sort optimizes locally and can silently corrupt downstream logic.
 
@@ -1150,9 +1154,11 @@ A sort is **stable** if equal elements appear in the output in the same relative
 Most references say hash table lookup is O(1). This is a dangerous shorthand.
 
 **The precise guarantee:**
-> Hash table lookup is O(1) *expected*, under the assumption of a uniform, random hash function and managed load factor.
+
+> Hash table lookup is O(1) _expected_, under the assumption of a uniform, random hash function and managed load factor.
 
 It is **not** O(1) worst-case. All three collision schemes degrade to O(n) worst-case:
+
 - Separate chaining: all n keys in the same chain → n comparisons.
 - Open addressing: all n keys probe the same cluster → n probes.
 
@@ -1167,12 +1173,12 @@ Python (since 3.3), Java, and Rust randomize a per-process seed mixed into the h
 **The lesson:**
 "Expected" means the expectation is taken over the randomness of the hash function. If the hash function is deterministic and known, the expectation is meaningless — there is no randomness. "Expected O(1)" and "O(1) always" are different guarantees. Knowing which one you have determines whether your system is robust to adversarial inputs.
 
-| Scenario | Lookup cost |
-|----------|-------------|
-| Good hash, low α | O(1) expected |
-| Bad hash (all keys collide) | O(n) always |
-| Adversarial keys, public hash | O(n) per lookup |
-| Hash randomization enabled | O(1) expected with high probability |
+| Scenario                      | Lookup cost                         |
+| ----------------------------- | ----------------------------------- |
+| Good hash, low α              | O(1) expected                       |
+| Bad hash (all keys collide)   | O(n) always                         |
+| Adversarial keys, public hash | O(n) per lookup                     |
+| Hash randomization enabled    | O(1) expected with high probability |
 
 ---
 
