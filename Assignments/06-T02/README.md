@@ -976,39 +976,46 @@ A **minimal perfect hash** uses exactly |S| slots (no empty space wasted).
 
 ---
 
-## Section 13 - Trie Tree's
-
-Here's the full Trie Tree study guide section! Let me build the diagram first, then give you everything in LaTeX-ready format.
+## Section 13 — Trie, Radix, and Ternary Search Trees
 
 <img src="./images/trie_tree_diagram.svg">
 
-And here's all the study guide content — ready for your LaTeX doc:
-
 ---
 
-## Trie Trees — Study Guide Section
+### Trie Trees
 
-### Concept Overview
-
-A **Trie** (pronounced "try," from _re**trie**val_) is a tree-based data structure used to store strings where each node represents a single character. Unlike a BST where a node holds a complete key, a Trie encodes keys character-by-character along root-to-leaf paths. This makes it absurdly good at prefix-based lookups — if you've ever seen autocomplete work, you've seen a Trie doing the heavy lifting.
+A **Trie** (pronounced "try," from _re**trie**val_) is a tree-based data structure used to store strings where each node represents a single character. Unlike a BST where a node holds a complete key, a Trie encodes keys character-by-character along root-to-leaf paths. This makes it exceptionally good at prefix-based lookups — autocomplete is a trie doing the heavy lifting.
 
 **Key properties:**
 
 - The root represents the empty string
 - Each edge is labeled with a character
 - A path from root to a terminal node spells a complete word
-- Nodes may be shared across multiple words that share a prefix (e.g., "ant" and "and" share the path `a → n`)
-- Each node typically stores a boolean `isEndOfWord` flag
+- Nodes are shared across words that share a prefix (e.g., "ant" and "and" share the path `a → n`)
+- Each node stores a boolean `isEndOfWord` flag
 
----
+**Time Complexity:**
 
-### Small Alphabet & Word Set
+| Operation     | Cost               |
+| ------------- | ------------------ |
+| Insert        | O(L)               |
+| Search        | O(L)               |
+| Delete        | O(L)               |
+| Prefix search | O(P + K)           |
 
-**Alphabet:** `{a, b, c, d, e, n, t}` (7 characters)
+where L = word length, P = prefix length, K = number of matching words.
 
-**Word set:** `ant, and, be, bet, bad, band, can, cat`
+**Space Complexity:** O(|Σ| × N × L) worst case — the Trie's Achilles heel. Every node allocates |Σ| child pointers, most of which are null for sparse alphabets.
 
-**Frequency Distribution** (simulated insertion order / search frequency):
+**Applications:**
+
+- Autocomplete and search suggestion engines
+- Spell checkers
+- IP routing tables (binary tries on bit prefixes)
+- DNA sequence matching
+- T9 predictive text
+
+**Worked Example — word set:** `ant, and, be, bet, bad, band, can, cat`
 
 | Word | Frequency | Prefix Shared With |
 | ---- | --------- | ------------------ |
@@ -1021,44 +1028,81 @@ A **Trie** (pronounced "try," from _re**trie**val_) is a tree-based data structu
 | can  | 7         | cat (c→a)          |
 | cat  | 10        | can (c→a)          |
 
-This distribution is useful for discussing search time — high-frequency words like "cat" and "be" still require the same number of comparisons as low-frequency ones (O(L) where L = word length), unlike a BST where frequency-based ordering matters.
+Note: high-frequency words like "cat" and "be" still cost the same O(L) as low-frequency ones — unlike a BST where access cost depends on position, not frequency.
 
 ---
 
-### Other Important Topics
+### Radix Trees and Patricia Trees
 
-**Time Complexity:**
+A **Radix Tree** is a space-optimized trie. Any chain of single-child nodes gets merged into one edge labeled with a substring. Prefix-sharing is preserved; node count drops to O(n keys) instead of O(total characters).
 
-- Insert: O(L)
-- Search: O(L)
-- Delete: O(L)
-- Prefix search: O(P + K), where P = prefix length, K = number of matching words
+```
+Standard Trie for "cat", "car", "card":        Radix Tree:
 
-**Space Complexity:** O(ALPHABET_SIZE × N × L) in the worst case — this is the Trie's Achilles heel. Sparse alphabets with long words waste significant memory.
+root → c → a → t                               root → "ca" → "t"
+               r → d                                          "r" → "d"
+```
 
-**Compressed Tries (Radix Trees / Patricia Trees):** Nodes with only one child get merged with their child. "band" and "bad" share `b→a`, but the `d` node under "bad" and the `n→d` path under "band" are kept separate only where branching occurs. Drastically reduces space.
+**Key insight:** Structure changes, but search cost stays O(L) — you're now comparing substrings per edge instead of characters per node. In practice, fewer nodes means fewer memory accesses and better cache behavior.
 
-**Applications:**
+A **Patricia Tree** (Practical Algorithm To Retrieve Information Coded In Alphanumeric) is a binary radix tree where edges store **bit positions to test**, not substrings. Back-pointers to ancestors mark where strings terminate. Designed for binary key lookup — extremely cache-friendly and the standard choice for network routing (CIDR prefix matching).
 
-- Autocomplete and search suggestion engines
-- Spell checkers
-- IP routing tables (using binary tries on bit prefixes)
-- DNA sequence matching
-- T9 predictive text (remember that??)
+| Property    | Trie           | Radix Tree                 | Patricia Tree                |
+| ----------- | -------------- | -------------------------- | ---------------------------- |
+| Node count  | O(total chars) | O(n keys)                  | O(n keys)                    |
+| Edge labels | single char    | substrings                 | bit indices                  |
+| Space       | poor           | good                       | good                         |
+| Lookup cost | O(L) chars     | O(L) chars                 | O(L) bits                    |
+| Common use  | autocomplete   | IP routing, git pack index | networking, low-level search |
+
+**Bottom line:** Radix tree = space-optimized trie. Patricia tree = binary radix tree purpose-built for bit-string keys.
 
 ---
 
-### Comparison with Similar Structures
+### Ternary Search Trees
 
-| Structure      | Search   | Insert   | Space        | Best Use Case                  |
-| -------------- | -------- | -------- | ------------ | ------------------------------ |
-| Trie           | O(L)     | O(L)     | High         | Prefix search, autocomplete    |
-| Hash Table     | O(1) avg | O(1) avg | Moderate     | Exact-match lookup             |
-| BST            | O(log n) | O(log n) | Low-Moderate | Ordered key retrieval          |
-| Radix Tree     | O(L)     | O(L)     | Lower        | Compressed prefix storage      |
-| Ternary Search | O(L) avg | O(L)     | Moderate     | Spell check, near-match search |
+A **Ternary Search Tree (TST)** is a hybrid between a trie and a BST. Each node stores one character and has three children:
 
-The key differentiator: Tries shine when you care about **prefixes**, not just full-key equality.
+- **Left:** current character in the string is less than this node's character
+- **Middle:** current character matches — advance to the next character
+- **Right:** current character in the string is greater than this node's character
+
+```
+Inserting "cat", "can", "bat":
+
+        c
+       /|\
+      b = a
+        / \
+       n   t
+```
+
+**Why it matters:** A standard trie allocates an array of size |Σ| at every node (26 slots for lowercase letters), most of which are null. A TST uses only 3 pointers per node, making it far more space-efficient for large or sparse alphabets.
+
+| Property                 | Standard Trie                | Ternary Search Tree                 |
+| ------------------------ | ---------------------------- | ----------------------------------- |
+| Node children            | \|Σ\| pointers               | 3 pointers                          |
+| Space                    | O(\|Σ\| · N · L)             | O(N · L)                            |
+| Search                   | O(L)                         | O(L) avg, O(L · log\|Σ\|) worst    |
+| Near-match / spell-check | Hard — exhaustive traversal  | Natural — BST left/right supports it |
+| Cache behavior           | Poor (sparse pointer arrays) | Better (compact 3-pointer nodes)    |
+
+**Best use case:** Spell-checkers and near-match search — the BST ordering of left/right children lets you enumerate "close" strings (one character off) efficiently, which a standard trie cannot do without exhaustive traversal.
+
+---
+
+### Side-by-Side Comparison
+
+| Structure       | Search    | Insert   | Space            | Best Use Case                  |
+| --------------- | --------- | -------- | ---------------- | ------------------------------ |
+| Trie            | O(L)      | O(L)     | High             | Prefix search, autocomplete    |
+| Radix Tree      | O(L)      | O(L)     | Lower            | Compressed prefix storage      |
+| Patricia Tree   | O(L)      | O(L)     | Low              | IP/bit-prefix routing          |
+| Ternary Search  | O(L) avg  | O(L)     | Moderate         | Spell check, near-match search |
+| Hash Table      | O(1) avg  | O(1) avg | Moderate         | Exact-match lookup             |
+| BST             | O(log n)  | O(log n) | Low-Moderate     | Ordered key retrieval          |
+
+**The key question to ask:** Do you care about prefixes, or just full-key equality? If prefixes matter, this family of structures is the right tool. Which one depends on your alphabet size, memory budget, and whether you need near-match support.
 
 ---
 
