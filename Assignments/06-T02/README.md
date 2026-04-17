@@ -857,25 +857,76 @@ Common choice: p = 31 (lowercase letters) or p = 37 (broader ASCII). **Every cha
 
 ### Open Addressing
 
-All elements live in the table itself. On collision, probe alternative slots following a **probe sequence** h(k, i) for i = 0, 1, 2, …
+All elements live in the table itself — no linked lists, no external storage. When two keys want the same slot, you don't give up; you follow a **probe sequence** to find the next candidate slot. The formula `h(k, i)` tells you where to look on the i-th attempt (i = 0 is the original slot).
 
-**Linear probing:** `h(k, i) = (h(k) + i) mod m`
+---
 
-- Excellent cache performance — probes are sequential in memory.
-- Suffers from **primary clustering**: any key hashing into a long run of occupied slots extends it. Clusters grow faster than expected and performance collapses near α → 1.
+#### Linear Probing — "Just check the next one"
 
-**Quadratic probing:** `h(k, i) = (h(k) + i²) mod m`
+`h(k, i) = (h(k) + i) mod m`
 
-- Eliminates primary clustering: keys at the same initial slot take different probe paths.
-- Suffers from **secondary clustering**: two keys with the same h(k) still follow the identical probe sequence.
-- Guaranteed to probe every slot only when m is prime and α < 0.5.
+**Plain English:** If your slot is taken, try the next one. Then the next. Then the next. Keep going until you find an empty slot or wrap around.
 
-**Double hashing:** `h(k, i) = (h₁(k) + i · h₂(k)) mod m`
+**Example:** Table size m = 10. Key "alice" hashes to slot 3, but slot 3 is full.
 
-- Standard choice: `h₂(k) = p − (k mod p)` for prime p < m. h₂ must never return 0.
-- Each key gets a **unique probe stride** — no primary or secondary clustering.
-- Best distribution among open addressing schemes; closest to ideal random probing.
-- Poorer cache performance than linear probing (probe jumps are non-sequential).
+```
+Probe 0 (i=0):  slot 3  — occupied
+Probe 1 (i=1):  slot 4  — occupied
+Probe 2 (i=2):  slot 5  — empty ✓  →  insert here
+```
+
+**The upside:** Those probes land in consecutive memory addresses — your CPU loads them all into cache at once. Very fast in practice.
+
+**The downside — primary clustering:** Imagine slots 3–7 are all full. Any key that hashes anywhere into that run (not just slot 3) gets stuck walking the whole thing before finding slot 8. The run then grows to include slot 8. More keys pile in. The cluster snowballs. This is primary clustering, and it's why linear probing breaks down as the table fills.
+
+---
+
+#### Quadratic Probing — "Skip around by squares"
+
+`h(k, i) = (h(k) + i²) mod m`
+
+**Plain English:** Instead of checking 1 slot ahead, then 2, then 3 — check 1 ahead, then 4, then 9, then 16. The jumps grow quadratically.
+
+**Example:** Table size m = 11. Key "bob" hashes to slot 2, but it's full.
+
+```
+Probe 0 (i=0):  slot 2           — occupied
+Probe 1 (i=1):  slot (2+1)  = 3  — occupied
+Probe 2 (i=2):  slot (2+4)  = 6  — occupied
+Probe 3 (i=3):  slot (2+9)  = 0  — empty ✓  →  insert here
+```
+
+**The upside:** Two keys that collide at the same slot no longer pile on top of each other linearly — they diverge quickly after the first probe. Primary clustering is broken.
+
+**The downside — secondary clustering:** If "bob" and "carol" both hash to slot 2, they follow the exact same probe sequence (3 → 6 → 0 → …). They don't interfere with each other at insert time, but they race down the same path every time. The sequence itself becomes a mini-cluster.
+
+**Important constraint:** Quadratic probing only guarantees it will visit every slot (and therefore always find an empty one) when m is prime and the load factor α < 0.5. Beyond that, it can cycle through the same slots repeatedly and miss empty ones entirely.
+
+---
+
+#### Double Hashing — "Everyone gets their own jump size"
+
+`h(k, i) = (h₁(k) + i · h₂(k)) mod m`
+
+**Plain English:** Use a second hash function to compute a personal step size for each key. Instead of jumping by 1 (linear) or by squares (quadratic), every key jumps by its own unique stride.
+
+**Example:** Table size m = 11, using `h₂(k) = 7 − (k mod 7)`. Key "dave" has h₁ = 3 and h₂ = 4.
+
+```
+Probe 0 (i=0):  slot 3           — occupied
+Probe 1 (i=1):  slot (3+4)  = 7  — occupied
+Probe 2 (i=2):  slot (3+8)  = 0  — empty ✓  →  insert here
+```
+
+Key "eve" has h₁ = 3 but h₂ = 2, so her sequence is 3 → 5 → 7 → 9 → … — completely different path despite starting at the same slot.
+
+**The upside:** No primary clustering (keys scatter from their initial slot), no secondary clustering (keys with the same starting slot still diverge because they have different strides). Best distribution of the three.
+
+**One hard rule:** h₂(k) must never return 0 — a stride of 0 means you probe the same slot forever. Standard safe formula: `h₂(k) = p − (k mod p)` for any prime p < m.
+
+**The downside:** Probe jumps are non-sequential in memory, so you lose the cache-line benefit that made linear probing fast in practice. Theoretically cleaner; sometimes slower on real hardware.
+
+---
 
 | Method            | Primary clustering | Secondary clustering | Cache friendly | Coverage                 |
 | ----------------- | ------------------ | -------------------- | -------------- | ------------------------ |
