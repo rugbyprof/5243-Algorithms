@@ -1019,11 +1019,13 @@ A **minimal perfect hash** uses exactly |S| slots (no empty space wasted).
 
 1. **Open addressing or chaining?** Open: α must stay below threshold; chaining: α can exceed 1.
 2. **Which probing scheme?** Linear → watch for long clusters. Quadratic → same-origin keys follow identical path. Double → independent paths, no clustering.
-3. **Is h₂(k) safe?** It must never return 0 and should be coprime to m.
+3. **Is h₂(k) safe?** It must never return 0 and should be coprime[^1] to m.
 4. **Is the table size prime?** If not, explain what goes wrong.
 5. **What is α, and is a resize due?**
 6. **Why must resize rehash, not copy?** Hash positions are a function of m; changing m invalidates all of them.
 7. **Is the key set static?** If yes, a perfect hash is achievable.
+
+[^1]: In number theory, two integers a and b are coprime, relatively prime or mutually prime if the only positive integer that is a divisor of both of them is 1. Consequently, any prime number that divides a does not divide b, and vice versa. This is equivalent to their greatest common divisor being 1. One says also a is prime to b or a is coprime with b. The numbers 8 and 9 are coprime, despite the fact that neither—considered individually—is a prime number, since 1 is their only common divisor.
 
 ---
 
@@ -1047,12 +1049,12 @@ A **Trie** (pronounced "try," from _re**trie**val_) is a tree-based data structu
 
 **Time Complexity:**
 
-| Operation     | Cost               |
-| ------------- | ------------------ |
-| Insert        | O(L)               |
-| Search        | O(L)               |
-| Delete        | O(L)               |
-| Prefix search | O(P + K)           |
+| Operation     | Cost     |
+| ------------- | -------- |
+| Insert        | O(L)     |
+| Search        | O(L)     |
+| Delete        | O(L)     |
+| Prefix search | O(P + K) |
 
 where L = word length, P = prefix length, K = number of matching words.
 
@@ -1085,6 +1087,8 @@ Note: high-frequency words like "cat" and "be" still cost the same O(L) as low-f
 
 ### Radix Trees and Patricia Trees
 
+<img src="./images/radix_tree_diagram.svg">
+
 A **Radix Tree** is a space-optimized trie. Any chain of single-child nodes gets merged into one edge labeled with a substring. Prefix-sharing is preserved; node count drops to O(n keys) instead of O(total characters).
 
 ```
@@ -1112,31 +1116,23 @@ A **Patricia Tree** (Practical Algorithm To Retrieve Information Coded In Alphan
 
 ### Ternary Search Trees
 
+<img src="./images/ternary_tree_diagram.svg">
+
 A **Ternary Search Tree (TST)** is a hybrid between a trie and a BST. Each node stores one character and has three children:
 
 - **Left:** current character in the string is less than this node's character
 - **Middle:** current character matches — advance to the next character
 - **Right:** current character in the string is greater than this node's character
 
-```
-Inserting "cat", "can", "bat":
-
-        c
-       /|\
-      b = a
-        / \
-       n   t
-```
-
 **Why it matters:** A standard trie allocates an array of size |Σ| at every node (26 slots for lowercase letters), most of which are null. A TST uses only 3 pointers per node, making it far more space-efficient for large or sparse alphabets.
 
-| Property                 | Standard Trie                | Ternary Search Tree                 |
-| ------------------------ | ---------------------------- | ----------------------------------- |
-| Node children            | \|Σ\| pointers               | 3 pointers                          |
-| Space                    | O(\|Σ\| · N · L)             | O(N · L)                            |
-| Search                   | O(L)                         | O(L) avg, O(L · log\|Σ\|) worst    |
+| Property                 | Standard Trie                | Ternary Search Tree                  |
+| ------------------------ | ---------------------------- | ------------------------------------ |
+| Node children            | \|Σ\| pointers               | 3 pointers                           |
+| Space                    | O(\|Σ\| · N · L)             | O(N · L)                             |
+| Search                   | O(L)                         | O(L) avg, O(L · log\|Σ\|) worst      |
 | Near-match / spell-check | Hard — exhaustive traversal  | Natural — BST left/right supports it |
-| Cache behavior           | Poor (sparse pointer arrays) | Better (compact 3-pointer nodes)    |
+| Cache behavior           | Poor (sparse pointer arrays) | Better (compact 3-pointer nodes)     |
 
 **Best use case:** Spell-checkers and near-match search — the BST ordering of left/right children lets you enumerate "close" strings (one character off) efficiently, which a standard trie cannot do without exhaustive traversal.
 
@@ -1144,14 +1140,14 @@ Inserting "cat", "can", "bat":
 
 ### Side-by-Side Comparison
 
-| Structure       | Search    | Insert   | Space            | Best Use Case                  |
-| --------------- | --------- | -------- | ---------------- | ------------------------------ |
-| Trie            | O(L)      | O(L)     | High             | Prefix search, autocomplete    |
-| Radix Tree      | O(L)      | O(L)     | Lower            | Compressed prefix storage      |
-| Patricia Tree   | O(L)      | O(L)     | Low              | IP/bit-prefix routing          |
-| Ternary Search  | O(L) avg  | O(L)     | Moderate         | Spell check, near-match search |
-| Hash Table      | O(1) avg  | O(1) avg | Moderate         | Exact-match lookup             |
-| BST             | O(log n)  | O(log n) | Low-Moderate     | Ordered key retrieval          |
+| Structure      | Search   | Insert   | Space        | Best Use Case                  |
+| -------------- | -------- | -------- | ------------ | ------------------------------ |
+| Trie           | O(L)     | O(L)     | High         | Prefix search, autocomplete    |
+| Radix Tree     | O(L)     | O(L)     | Lower        | Compressed prefix storage      |
+| Patricia Tree  | O(L)     | O(L)     | Low          | IP/bit-prefix routing          |
+| Ternary Search | O(L) avg | O(L)     | Moderate     | Spell check, near-match search |
+| Hash Table     | O(1) avg | O(1) avg | Moderate     | Exact-match lookup             |
+| BST            | O(log n) | O(log n) | Low-Moderate | Ordered key retrieval          |
 
 **The key question to ask:** Do you care about prefixes, or just full-key equality? If prefixes matter, this family of structures is the right tool. Which one depends on your alphabet size, memory budget, and whether you need near-match support.
 
@@ -1400,8 +1396,10 @@ The general rule: **contiguous memory beats pointer-following** whenever the acc
 
 OR
 
-> "Choose the wrong container type and you get smelly, burnt, dumpster fire code." (Linus Torvald[^1])
+> "Choose the wrong container type and you get smelly, burnt, dumpster fire code." (Linus Torvald[^2])
 
 The container and algorithm must agree. The policy must match the workload. When all three align, performance follows. When any one is wrong, the entire system suffers — often in ways that don't show up until scale.
 
-[^1]: Not really. Maybe it was Bill Gates? OH! Elon Musk ... that's the ticket.
+### Footnotes:
+
+[^2]: Not really. Maybe it was Bill Gates? OH! Elon Musk ... that's the ticket.
