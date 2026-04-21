@@ -1085,6 +1085,26 @@ Note: high-frequency words like "cat" and "be" still cost the same O(L) as low-f
 
 ---
 
+### T9 Predictive Text
+
+**The problem:** Old phone keypads had 9 keys, each mapped to 3–4 letters (2=ABC, 3=DEF, 4=GHI, ..., 9=WXYZ). When you pressed `4663`, you meant one word — but that key sequence could spell "gone", "home", "hone", "hood", "good", etc. T9 had to figure out which word you meant.
+
+**The trie connection:** Build a trie loaded with every word in a dictionary, each node tagged with a frequency (how common the word is). Then:
+
+1. User presses `4-6-6-3`
+2. That maps to character sets: `{G,H,I}` → `{M,N,O}` → `{M,N,O}` → `{D,E,F}`
+3. Traverse the trie, at each level only following edges whose character falls in that key's set
+4. Collect every word reachable via this constrained path
+5. Return the highest-frequency match as the default prediction
+
+**Why a trie fits:** The prefix-sharing property means you prune entire subtrees early. If no word starts with `H-O-O`, you don't explore `{D,E,F}` for that branch at all. With a hash table you'd have to enumerate all possible character combinations first (`GD, GE, GF, ...` — up to 4⁴ = 256 combos for a 4-key press), then check each one individually. The trie gives you prefix filtering for free.
+
+**Frequency ranking** is layered on top — each terminal node stores a word frequency so the most likely match surfaces first. That's why T9 usually guessed right on common words.
+
+The cost is O(L · |key_set|) per level instead of O(L) for a plain trie search, but since |key_set| ≤ 4, it's still effectively O(L).
+
+---
+
 ### Radix Trees and Patricia Trees
 
 <img src="./images/radix_tree_diagram.svg">
@@ -1135,6 +1155,44 @@ A **Ternary Search Tree (TST)** is a hybrid between a trie and a BST. Each node 
 | Cache behavior           | Poor (sparse pointer arrays) | Better (compact 3-pointer nodes)     |
 
 **Best use case:** Spell-checkers and near-match search — the BST ordering of left/right children lets you enumerate "close" strings (one character off) efficiently, which a standard trie cannot do without exhaustive traversal.
+
+---
+
+### How Classic Spell Checkers Work
+
+A spell checker's core job: given a misspelled word, find dictionary words that are "close" to it. "Close" is defined by **edit distance** — the minimum number of single-character edits needed to transform one word into another.
+
+**The four edit operations (Levenshtein distance):**
+
+| Operation         | Example                       | Candidates generated |
+| ----------------- | ----------------------------- | -------------------- |
+| **Substitution**  | "cat" → "bat" (c→b)           | 25 × L               |
+| **Insertion**     | "cat" → "cats"                | 26 × (L+1)           |
+| **Deletion**      | "cats" → "cat"                | L                    |
+| **Transposition** | "cat" → "act" (swap adjacent) | L − 1                |
+
+For a word of length L, edit distance 1 generates roughly **54L + 25** candidate strings. Most won't be real words — the spell checker generates all of them, then filters by dictionary lookup.
+
+**Edit distance 2** (two operations away) catches most real misspellings. The candidate count explodes — you apply all four operations to every edit-distance-1 result — but the same filter step applies: generate, then check.
+
+**Why this was expensive before tries/TSTs:**
+
+The naive approach checks the misspelled word against every word in the dictionary — O(n × L) per lookup for n dictionary entries. Generating candidates and hashing them is faster: each candidate lookup is O(L) in a hash table, and there are only ~54L candidates at edit distance 1.
+
+**Where TSTs fit in:**
+
+A TST lets you search for near-matches _without_ generating all candidates first. The BST left/right structure at each character position lets you explore "what if this character were slightly different" paths naturally during traversal. You walk the tree, and when a character doesn't match the current node, you can branch left or right (characters that are "close" in value) instead of backtracking and starting over. This makes bounded-edit-distance search O(L · |Σ|^d) where d is the edit distance budget — far better than generating and hashing all candidates for large alphabets.
+
+**The practical pipeline (Ispell/Aspell style):**
+
+1. Tokenize the input into words
+2. Look up each word in the dictionary (hash table — O(1))
+3. On miss: generate all edit-distance-1 and edit-distance-2 candidates
+4. Filter candidates through the dictionary
+5. Rank survivors by frequency (common words first) and phonetic similarity
+6. Present top suggestions
+
+**Phonetic matching (Soundex, Metaphone):** Some spell checkers also generate suggestions based on how a word _sounds_, not just how it's spelled. "Fone" → "phone" requires knowing that `f` and `ph` sound alike — edit distance alone won't catch this. Soundex encodes words into a 4-character phonetic key; words with the same key are returned together as candidates.
 
 ---
 
