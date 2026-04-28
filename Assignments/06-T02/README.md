@@ -729,6 +729,40 @@ for each edge (u, v, w) in sorted order:
 
 **Complexity:** O(E log E) = O(E log V), dominated by sorting.
 
+#### Union-Find (Disjoint Set Union)
+
+Union-Find maintains a collection of disjoint sets and supports two operations efficiently:
+
+- **`find(x)`** — returns the **root (representative)** of the set containing x. Two elements are in the same set iff they share a root.
+- **`union(x, y)`** — merges the sets containing x and y into one.
+
+**Implementation with two optimizations:**
+
+1. **Union by rank** — always attach the shorter tree under the root of the taller tree. Keeps trees flat.
+2. **Path compression** — on each `find`, rewire every node along the path directly to the root. Future finds on those nodes are O(1).
+
+```
+parent[x] = x, rank[x] = 0  for all x   ← initialization
+
+find(x):
+    if parent[x] ≠ x:
+        parent[x] = find(parent[x])       ← path compression
+    return parent[x]
+
+union(x, y):
+    rx, ry = find(x), find(y)
+    if rx == ry: return                    ← already same set
+    if rank[rx] < rank[ry]: swap(rx, ry)
+    parent[ry] = rx                        ← attach smaller under larger
+    if rank[rx] == rank[ry]: rank[rx] += 1
+```
+
+With both optimizations, `find` and `union` run in **O(α(n))** amortized — α is the inverse Ackermann function, which is ≤ 4 for any practical input size. This is treated as effectively O(1).
+
+**Why it matters for Kruskal's:** After sorting, every edge requires one `find` (cycle check) and possibly one `union` (merge). The entire V − 1 merges and E finds cost O(E α(V)) ≈ O(E), so sorting dominates.
+
+**Common misconception — Union-Find does not use DFS.** The internal structure is a plain parent-pointer array, not an adjacency-list graph. `find` just chases parent pointers up a single linear path to the root — no branching, no backtracking, no stack. It resembles pointer chasing more than any named traversal algorithm. DFS _could_ be used instead (walk the current MST forest to check whether u and v are already connected), but that costs O(V) per edge check. Union-Find replaces that approach entirely, reducing each check to O(α(n)) ≈ O(1).
+
 ---
 
 ### Worked Example
@@ -748,6 +782,24 @@ for each edge (u, v, w) in sorted order:
 
 MST: A–C, B–C, C–D, D–E → total weight **12**
 
+**Union-Find state during Kruskal's — same example:**
+
+Each vertex starts as its own root. `parent[]` is shown after each step. Rank is omitted for brevity (A becomes root of rank 1 after step 1; all others rank 0).
+
+| Step | Edge | find(u) | find(v) | Same?      | parent[] after (A B C D E) |
+| ---- | ---- | ------- | ------- | ---------- | -------------------------- |
+| init | —    | —       | —       | —          | A B C D E                  |
+| 1    | A–C  | A       | C       | No → union | A B **A** D E              |
+| 2    | B–C  | B       | A†      | No → union | A **A** A D E              |
+| 3    | C–D  | A†      | D       | No → union | A A A **A** E              |
+| 4    | A–B  | A       | A†      | Yes → skip | A A A A E                  |
+| 5    | B–D  | A†      | A†      | Yes → skip | A A A A E                  |
+| 6    | D–E  | A†      | E       | No → union | A A A A **A**              |
+
+† `find` follows parent pointers up to root A; path compression rewires those nodes directly to A on the way back.
+
+After step 6, every vertex's root is A — one component, MST complete.
+
 **Prim's trace — start at vertex A:**
 
 | Step | Tree      | Frontier (edge : weight) | Chosen  |
@@ -760,6 +812,76 @@ MST: A–C, B–C, C–D, D–E → total weight **12**
 † Stale — both endpoints already in the tree.
 
 MST: A–C, B–C, C–D, D–E → total weight **12**
+
+---
+
+### Dijkstra's, Prim's, and Kruskal's — A Unified View
+
+Understanding how these three relate to each other is the key to justifying Union-Find from first principles rather than treating it as a black box.
+
+#### Dijkstra's and Prim's are the same algorithm in different clothes
+
+Both are **vertex-centric** and **single-source**. They grow one connected tree outward from a starting vertex, always grabbing the cheapest available extension. Their pseudocode is nearly identical:
+
+```
+initialize: key[start] = 0,  key[all others] = ∞,  parent[] = null
+PQ ← all vertices keyed by key[]
+
+while PQ is not empty:
+    u ← extract-min(PQ)
+    for each neighbor v of u not yet processed:
+        if <new_cost(u, v)> < key[v]:
+            key[v] = <new_cost(u, v)>    ← decrease-key
+            parent[v] = u
+```
+
+The only thing that differs is the key update rule:
+
+| Algorithm  | `new_cost(u, v)`        | `parent[]` encodes             |
+| ---------- | ----------------------- | ------------------------------ |
+| Dijkstra's | `key[u] + weight(u, v)` | Shortest-path tree from source |
+| Prim's     | `weight(u, v)`          | MST edges                      |
+
+Dijkstra's accumulates total path cost from the source. Prim's only cares about the single edge connecting `v` to the current tree — it forgets how it got to `u`. Both record their answer in `parent[]`, and both would be **broken** by path compression because the parent pointers _are_ the answer, not bookkeeping.
+
+#### Kruskal's is a different paradigm entirely
+
+Kruskal's is **edge-centric** and **sourceless**. It never grows from a single vertex. Instead it:
+
+1. Views all edges globally and sorts them once
+2. Asks the same question at every step: **"do the two endpoints already belong to the same component?"**
+3. Builds a forest of separate trees that gradually merge into one MST
+
+On a whiteboard, this question is easy — you can visually trace whether two vertices are in the same blob. The challenge is answering it efficiently in code across thousands of edges.
+
+#### Why Union-Find is the natural fit for Kruskal's
+
+The question _"are u and v in the same component?"_ is **exactly** the question Union-Find was designed to answer. Every data structure decision in Union-Find flows from this:
+
+- `find(x)` returns a **component label** (the root), not a path. Two vertices are in the same component iff `find(u) == find(v)`.
+- Path compression **destroys** the internal tree shape on purpose — the shape is irrelevant, only the root label matters. This is the opposite of Dijkstra's/Prim's `parent[]`, where the shape _is_ the answer.
+- `union(u, v)` merges two components in O(α(n)) — nothing in the algorithm needs to know _which_ edges caused the merge, only that the merge happened.
+
+```
+Dijkstra's  parent[v] = u  →  "edge u→v is on the shortest path"   ← keep the shape
+Prim's      parent[v] = u  →  "edge u–v is in the MST"             ← keep the shape
+Kruskal's   parent[v] = u  →  "u is on the path to v's root"       ← shape is irrelevant, compress it
+```
+
+#### The fundamental split
+
+```
+Vertex-centric — grow from a source          Edge-centric — global sort
+────────────────────────────────             ─────────────────────────
+Dijkstra's   → shortest-path tree            Kruskal's  → MST
+Prim's       → MST
+
+Shared machinery:                            Shared machinery:
+  PQ + decrease-key + parent[]                 sort + Union-Find
+  O((V + E) log V)                             O(E log E)
+```
+
+Prim's and Dijkstra's are structurally the same algorithm solving different problems. Kruskal's solves the same problem as Prim's (MST) but from a completely different angle — and that different angle is precisely what makes Union-Find the natural, not arbitrary, choice.
 
 ---
 
